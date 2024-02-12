@@ -26,8 +26,8 @@ function extractPronunciationAttribute(parsedData) {
     // Iterate over the JSON data and build the hashmap
     parsedData.forEach(entry => {
     
-      // Use the 'entry_id' attribute as the key 
-      const uniqueId = entry.entry_id;
+      // Use the 'headword' attribute as the key 
+      const uniqueId = entry.headword;
       // Extract the 'pronunciation' attribute
       const pronunciation = entry.pronunciation;
 
@@ -41,6 +41,12 @@ function extractPronunciationAttribute(parsedData) {
         // Add the 'pronunciation' attribute to the array
         pronunciationMap[uniqueId].push(pronunciation);
         numWords = 1 + numWords;
+
+        // Removes any word that does not have a pronunciation
+        if (pronunciation.length == 0){
+          delete pronunciationMap[uniqueId];
+          numWords = numWords - 1;
+        }
       }
     });
 
