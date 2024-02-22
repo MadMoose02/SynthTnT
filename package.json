@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@theresnotime/ipa-to-ssml": "^1.2.0",
     "crypto-js": "^4.2.0"
   }
 }
