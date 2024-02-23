@@ -1,16 +1,5 @@
-//const ipaToSSML = require('@theresnotime/ipa-to-ssml');
+const ipaToSSML = require('@theresnotime/ipa-to-ssml');
 const pronunciation = require('./local_folder/pronunciation.js');
-/*async function convertTextToSSML() {
-    try {
-      let ssmlResult = await ipaToSSML.convertToSSML();
-      console.log('SSML Result:', ssmlResult);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-}
-  
-convertTextToSSML();
-*/
 
 // Main program
 /*const readline = require('readline');
@@ -69,6 +58,30 @@ for (let i = 0; i < hashedWords.length; i++) {
     i--;
   }
 }
+
+const TextToIPA = require('text-to-ipa');
+let ipa = [];
+for (let i = 0; i < words.length; i++) {
+    let result = TextToIPA.lookup(words[i]);
+    // console.log(result);
+    (result.error == 'multi') ? ipa.push(result.text.split(" OR ")[0]) : ipa.push(result.text);
+}
+
+console.log(ipa);
+
+async function convertTextToSSML(words, ipa) {
+  let ssmlResults =[];
+  try {
+    for (let i = 0; i < ipa.length; i++){
+      ssmlResults[i]= await ipaToSSML.convertToSSML(words[i],ipa[i]);
+    }
+    console.log('SSML Result:', ssmlResults);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+convertTextToSSML(words, ipa);
 
 
 
