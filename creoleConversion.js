@@ -1,9 +1,14 @@
 const ipa2SSML = require('@theresnotime/ipa-to-ssml');
-const text2IPA = require('text-to-ipa');
-const DTTEC = require('./local_folder/pronunciation.js');
+const DTTEC    = require('./local_folder/pronunciation.js');
+
+function removeNonLetters(sentence) {
+    // Use a regular expression to match anything that is not a letter
+    let cleanSentence = sentence.replace(/[^a-zA-Z\s]/g, '');
+    return cleanSentence;
+}
 
 function extractCreole(text) {
-    let words = text.split(" ");
+    let words = removeNonLetters(text).split(" ");
     let creoleWords = new Map();
     for (let i = 0; i < words.length; i++) {
         let ipa = DTTEC.lookup(words[i]);
@@ -26,8 +31,9 @@ async function getCreoleSSML(map) {
 }
 
 if (require.main === module) {
-    let words = extractCreole("Ah will take a abricot");
-    let creoleSSML = getCreoleSSML(words).then((result) => {
+    let sentence = "Is he going to play a game with abir?";
+    let words = extractCreole(sentence);
+    getCreoleSSML(words).then((result) => {
         console.log(result);
     });
 }
