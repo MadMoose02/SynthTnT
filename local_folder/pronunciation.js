@@ -1,91 +1,72 @@
+const fs = require('fs');
+const CryptoJS = require('crypto-js');
+
 //Function used to read the json data from data.json
 function readJsonFile(filePath) {
-  try {
-    // Read the contents of the JSON file synchronously
-    const jsonData = fs.readFileSync(filePath, 'utf-8');
+    try {
+        // Read the contents of the JSON file synchronously
+        const jsonData = fs.readFileSync(filePath, 'utf-8');
 
-    // JSON string to JS Object
-    return JSON.parse(jsonData);
-  } 
-  catch (error) {
-    console.error(`Error reading JSON file: ${error.message}`);
-    return null;
-  }
+        // JSON string to JS Object
+        return JSON.parse(jsonData);
+    
+    } catch (error) {
+        console.error(`Error reading JSON file: ${error.message}`);
+        return null;
+    }
 }
 
 //Function extracts the "pronunciation" attribute from the parsed json file data
-function extractPronunciationAttribute(parsedData) {
-  try {
-    // Initialize a hashmap to store the "pronunciation" attributes
-    const pronunciationMap = {};
+function getDTTECIPAHashMap(dictPath) {
 
-    // Keeps count of the number of pronunciation attributes found from the parsed file.
-    // This equates to the number of words present in the file.
-    let numWords = 0;
+    let parsedJSON = readJsonFile(dictPath);
+    if (!parsedJSON) {
+        console.error('Error. No JSON data available.');
+    }
 
-    // Iterate over the JSON data and build the hashmap
-    parsedData.forEach(entry => {
-      
-      // Use the 'headword' attribute as the key 
-      let uniqueId = entry.headword;
-      //console.log(uniqueId)
-      uniqueId = CryptoJS.SHA256(uniqueId).toString();
-      
-      // Extract the 'pronunciation' attribute
-      const pronunciation = entry.pronunciation;
+    try {
+        // Initialize a hashmap to store the "pronunciation" attributes
+        let pronunciationMap = new Map();
 
-      // Check if the 'pronunciation' attribute is defined
-      if (pronunciation !== undefined) {
-        // Initialize an array for the unique identifier if not already present
-        if (!pronunciationMap[uniqueId]) {
-          pronunciationMap[uniqueId] = [];
-        }
+        // Iterate over the JSON data and build the hashmap
+        parsedJSON.forEach(entry => {
+        
+            // Use the 'headword' attribute as the key 
+            let id = CryptoJS.SHA256(entry.headword).toString();
+            
+            // Extract the 'pronunciation' attribute
+            let pronunciation = entry.pronunciation;
+            
+            // Check if the 'pronunciation' attribute is defined
+            if (pronunciation != '') {
 
-        // Add the 'pronunciation' attribute to the array
-        pronunciationMap[uniqueId].push(pronunciation);
-        numWords = 1 + numWords;
+                // Add only words that have a pronunciation
+                if (pronunciation.length > 0){
 
-        // Removes any word that does not have a pronunciation
-        if (pronunciation.length == 0){
-          delete pronunciationMap[uniqueId];
-          numWords = numWords - 1;
-        }
-      }
-    });
+                    // Add the 'pronunciation' attribute to the array
+                    pronunciationMap.set(id, pronunciation[0]);
+                }
+            }
+        });
 
-    console.log('Number of Words Found:', numWords);
-    return pronunciationMap;
-  } 
-  catch (error) {
-    console.error(`Error reading and compiling pronunciation attributes: ${error.message}`);
-    return null;
-  }
+        return pronunciationMap;
+    
+    } catch (error) {
+        console.error(`Error reading and compiling pronunciation attributes: ${error.message}`);
+        return null;
+    }
 }
 
-//Main Program 
-const fs = require('fs');
-const CryptoJS = require('crypto-js');
-const jsonFilePath = 'data.json';
-
-const jsonData = readJsonFile(jsonFilePath);
-
-if (jsonData) {
-  //console.log('JSON data:', jsonData);
-  
-  const pronunciationMap = extractPronunciationAttribute(jsonData);
-
-  if (pronunciationMap) {
-    console.log('Pronunciation Map:', pronunciationMap);
-  }
+// Function to lookup entries in the DTTEC HashMap
+function lookup(word, dictPath = 'data.json') {
+    let hm = getDTTECIPAHashMap(dictPath);
+    let hash = CryptoJS.SHA256(word).toString();
+    return hm.get(hash) ? hm.get(hash).toString() : undefined;
 }
-else {
-  console.log('Error. No JSON data available.');
-}
-
 
 // Export all funtions
 module.exports = {
-  readJsonFile,
-  extractPronunciationAttribute
+    getDTTECIPAHashMap,
+    lookup
 };
 
