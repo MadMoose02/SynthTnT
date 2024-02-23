@@ -21,13 +21,16 @@ function extractPronunciationAttribute(parsedData) {
 
     // Keeps count of the number of pronunciation attributes found from the parsed file.
     // This equates to the number of words present in the file.
-    numWords = 0;
+    let numWords = 0;
 
     // Iterate over the JSON data and build the hashmap
     parsedData.forEach(entry => {
-    
-      // Use the 'entry_id' attribute as the key 
-      const uniqueId = entry.entry_id;
+      
+      // Use the 'headword' attribute as the key 
+      let uniqueId = entry.headword;
+      //console.log(uniqueId)
+      uniqueId = CryptoJS.SHA256(uniqueId).toString();
+      
       // Extract the 'pronunciation' attribute
       const pronunciation = entry.pronunciation;
 
@@ -41,6 +44,12 @@ function extractPronunciationAttribute(parsedData) {
         // Add the 'pronunciation' attribute to the array
         pronunciationMap[uniqueId].push(pronunciation);
         numWords = 1 + numWords;
+
+        // Removes any word that does not have a pronunciation
+        if (pronunciation.length == 0){
+          delete pronunciationMap[uniqueId];
+          numWords = numWords - 1;
+        }
       }
     });
 
@@ -53,9 +62,9 @@ function extractPronunciationAttribute(parsedData) {
   }
 }
 
-
 //Main Program 
 const fs = require('fs');
+const CryptoJS = require('crypto-js');
 const jsonFilePath = 'data.json';
 
 const jsonData = readJsonFile(jsonFilePath);
@@ -72,3 +81,11 @@ if (jsonData) {
 else {
   console.log('Error. No JSON data available.');
 }
+
+
+// Export all funtions
+module.exports = {
+  readJsonFile,
+  extractPronunciationAttribute
+};
+
