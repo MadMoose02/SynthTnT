@@ -2,7 +2,7 @@ const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
 const watsonTTSEndpoint = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com';
 const fs = require('fs');
-const token = require('./api-key.json')['acces-token'];   // supply Waston API key in api-key.json
+const token = require('./api-key.json')['access-token'];   // supply Waston API key in api-key.json
 const outputPath = './audio-gen';
 
 let synthesisParams = {
