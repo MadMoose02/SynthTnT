@@ -83,3 +83,9 @@ else {
 }
 
 
+// Export all funtions
+module.exports = {
+  readJsonFile,
+  extractPronunciationAttribute
+};
+

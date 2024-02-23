@@ -1,5 +1,6 @@
-const ipaToSSML = require('@theresnotime/ipa-to-ssml');
-async function convertTextToSSML() {
+//const ipaToSSML = require('@theresnotime/ipa-to-ssml');
+const pronunciation = require('./local_folder/pronunciation.js');
+/*async function convertTextToSSML() {
     try {
       let ssmlResult = await ipaToSSML.convertToSSML();
       console.log('SSML Result:', ssmlResult);
@@ -9,6 +10,7 @@ async function convertTextToSSML() {
 }
   
 convertTextToSSML();
+*/
 
 // Main program
 /*const readline = require('readline');
@@ -45,9 +47,34 @@ function hashWords(words){
 }
 
 const CryptoJS = require('crypto-js');
-let sentence = "Hello123, how are you today?";
+let sentence = "Is he going to play a game with abir?";
 let words = getWords(removeNonLetters(sentence));
 console.log(words);
 
 let hashedWords = hashWords(words);
-console.log(hashedWords);
+
+const jsonFilePath = 'data.json';
+const jsonData = pronunciation.readJsonFile(jsonFilePath);
+const pronunciationMap = pronunciation.extractPronunciationAttribute(jsonData);
+
+for (let i = 0; i < hashedWords.length; i++) {
+  const hashedWord = hashedWords[i];
+
+  if (pronunciationMap.hasOwnProperty(hashedWord)) {
+    // If the hashed word exists in the map, remove it from both arrays
+    hashedWords.splice(i, 1);
+    words.splice(i, 1);
+
+    // Adjust the loop index to account for the removed element
+    i--;
+  }
+}
+
+
+
+
+
+
+
+
+
