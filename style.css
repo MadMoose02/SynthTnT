@@ -7,9 +7,11 @@ body {
     background-color: #000000;
 }
 
-#thanks {
+
+/* Welcome Section */
+#welcome {
     font-family: 'Times New Roman', Times, serif;
-    position: absolute;
+    position: relative;
     top: 10px;
     left: 0;
     width: 100%;
@@ -17,94 +19,24 @@ body {
     font-size: 22px;
 }
 
-.ombre-text{
-    background: linear-gradient(to right, #ff0000, #ffffff, #999999);
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
-#thanks p{
+#welcome p{
     font-size: 13pt;
     color: white;
     
 }
 
-#playButton {
-    cursor: pointer;
-    opacity: 0.85;
-    vertical-align: middle;
-    margin: 0 26px;
-    border: 3px solid red;
-    border-radius: 120px;
-    width: 120px;
-    height: 120px;
-    background: url(./button-imgs/play-btn.png) 15px 15px no-repeat;
-    background-size: 100px 90px;
+.ombre-text{
+    background: linear-gradient(to right, #ff0000, #ffffff, #444343);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-#pauseButton {
-    cursor: pointer;
-    background: url(./button-imgs/pause-btn.png) 0 0 no-repeat;
-    background-size: 50px;
-}
 
-#stopButton{
-    cursor: pointer;
-    background: url(/button-imgs/stop-btn.png) 0 0 no-repeat;
-    background-size: 50px;
-}
-
-#time {
-    text-align: center;
-    font-family: Roboto, sans-serif;
-    position: absolute;
-    left: 53%;
-    margin-left: -22px;
-    font-size: 20px;
-    bottom: 190px;
-}
-
-#pauseButton:hover,
-#playButton:hover,
-.pause-stop:hover,
-.seekbar:hover {
-    opacity: 0.7;
-}
-
-.playarea {
-    position: absolute;
-    top: 50%;
-    left: 53%;
-    height: 126px;
-    width: 320px;
-    margin-top: -63px;
-    margin-left: -160px;
-}
-
-.playarea div {
-    display: inline-block;
-}
-
-.pause-stop {
-    vertical-align: middle;
-    background-size: 66px 43px;
-    width: 66px;
-    height: 43px;
-}
-
-.seekbar {
-    cursor: pointer;
-    height: 27px;
-    position: absolute;
-    bottom: 240px;
-    left: 48%;
-}
-
+/* Text Input Section */
 textarea {
     margin-top: 10px;
-    margin-left: 50px;
-    width: 500px;
-    height: 100px;
+    width: 60vh;
+    height: 15vh;
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -124,9 +56,60 @@ textarea {
     transition: background-color 0.2s ease 0s;
   }
   
-  textarea:focus {
-      background: none repeat scroll 0 0 #FFFFFF;
-      outline-width: 0;
-  }
+textarea:focus {
+    background: none repeat scroll 0 0 #FFFFFF;
+    outline-width: 0;
+}
+
+
+/* Player Section */
+.player{
+    position: relative;
+    top: 5%;
+    justify-content: space-between; 
+    padding: 20px; 
+    text-align: center;
+    display: flex;
+}
+
+.column {
+    flex: 1; 
+    border: 2px solid rgb(38, 39, 38);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttons-cols{
+    margin-top: 10px;
+    display: flex;
+    flex: 3;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+img:hover,
+.seekbar:hover {
+    opacity: 0.7;
+}
+
+.play-btn img{
+    height: 20vh;
+}
+
+.pause-stop-btn img{
+    height: 5vh;
+}
+
+.seekbar{
+    margin:10px;
+}
+
+
+
+
+
+
+
 
 

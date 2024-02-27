@@ -8,70 +8,126 @@
     
 </head>
 <body>
-    <div id = player class="player">
-		<div id="thanks">
-			<h1><span class="ombre-text">Welcome to SynthTnT!</span></h1>
-			<p>Interact with the first Trinidadian and Tobagonian English Creole Text to Speech Application.</p>
-			<div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
-		</div>
-		
-		<div class="playarea">
-			<div id=pauseButton class="pause-stop"></div>
-			<div id="playButton"></div>
-			<div id= "stopButton" class="pause-stop"></div>
-		</div>
-		<div class="seekbar">
-			<input type="range" id="seekbar" value="0" step="0.1">
-			<audio id="audioPlayer" src="bring-de-rum.mp3"></audio>
-		</div>
-		<div id = "time" class="ombre-text">00:00</div>
-	</div>
+    <div id="welcome">
+        <h1><span class="ombre-text">Welcome to SynthTnT!</span></h1>
+        <p>Interact with the first Trinidadian and Tobagonian English Creole Text to Speech Application.</p>
+        <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
+    </div>
+    <div class = "player">
+        <div id="se-player" class="column">
+            <div class="playarea">
+                <div class="buttons-cols">
+                    <div id="se-pause-btn" class = "pause-stop-btn"><img src="./button-imgs/pause-btn.png"></div>
+                    <div id="se-play-btn" class = "play-btn"><img src="./button-imgs/play-btn.png"></div>
+                    <div id= "se-stop-btn" class = "pause-stop-btn"><img src="./button-imgs/stop-btn.png"></div>
+                </div>
+                
+                <div class="seekbar">
+                    <input id="se-seekbar" type="range" value="0" step="0.1">
+                    <audio id="se-audio-player" src="my-city.mp3"></audio>
+                </div>
+
+                <div id = "se-time" class="time ombre-text">00:00
+                </div>
+                <h2><span class="ombre-text">Standard English</span></h2>
+            </div>
+        </div>
+        
+        <div id = "ce-player" class = "column">
+            <div class="playarea">
+                <div class="buttons-cols">
+                    <div id="ce-pause-btn" class = "pause-stop-btn"><img src="./button-imgs/pause-btn.png"></div>
+                    <div id="ce-play-btn" class = "play-btn"><img src="./button-imgs/play-btn.png"></div>
+                    <div id= "ce-stop-btn" class = "pause-stop-btn"><img src="./button-imgs/stop-btn.png"></div>
+                </div>
+                
+                <div class="seekbar">
+                    <input id="ce-seekbar" type="range" value="0" step="0.1">
+                    <audio id="ce-audio-player" src="bring-de-rum.mp3"></audio>
+                </div>
+
+                <div id = "ce-time" class="time ombre-text">00:00
+                </div>
+                <h2><span class="ombre-text">Creole English</span></h2>
+            </div>
+        </div>
+    </div>
 
 	<script>
-        const textInput = document.getElementById('textArea');
-        const playButton = document.getElementById('playButton');
-        const pauseButton = document.getElementById('pauseButton');
-		const stopButton = document.getElementById('stopButton');
-        const seekbar = document.getElementById('seekbar');
-        const audioPlayer = document.getElementById('audioPlayer');
-		const timeDisplay = document.getElementById('time');
+        // Function to handle play, pause, and stop actions
+        function toggleAudio(playerId) {
+            const audioPlayer = document.getElementById(playerId + '-audio-player');
+            const playBtn = document.getElementById(playerId + '-play-btn');
+            const pauseBtn = document.getElementById(playerId + '-pause-btn');
+            const stopBtn = document.getElementById(playerId + '-stop-btn');
+    
+            playBtn.addEventListener('click', () => {
+                // If other player is playing it will be paused
+                // before playing audio from the next
+                pauseOtherPlayer(playerId);
+                audioPlayer.play();
+            });
+    
+            pauseBtn.addEventListener('click', () => {
+                audioPlayer.pause();
+            });
+    
+            stopBtn.addEventListener('click', () => {
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;
+            });
+        }
+    
+        // Function to pause the other player
+        function pauseOtherPlayer(currentPlayerId) {
+            const playerIds = ['ce', 'se'];
 
-        function playAudio() {
-            audioPlayer.play();
-        }
-        function pauseAudio(){
-            audioPlayer.pause();
-        }
-		function stopAudio(){
-            audioPlayer.pause();
-			audioPlayer.currentTime = 0;
-        }
-		function updateSeekbar() {
-            seekbar.value = audioPlayer.currentTime;
-			updateTimeDisplay();
-        }
-        function seekAudio() {
-            audioPlayer.currentTime = seekbar.value;
-			updateTimeDisplay();
-        }
-		function setSeekbarMax() {
-            seekbar.max = audioPlayer.duration;
-        }
-		function updateTimeDisplay() {
-            const minutes = Math.floor(audioPlayer.currentTime / 60);
-            const seconds = Math.floor(audioPlayer.currentTime % 60);
-            const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            timeDisplay.textContent = formattedTime;
+            playerIds.forEach(playerId => {
+                if (playerId !== currentPlayerId) {
+                    const otherAudioPlayer = document.getElementById(playerId + '-audio-player');
+                    otherAudioPlayer.pause();
+                }
+            });
         }
 
-        playButton.addEventListener('click', playAudio);
-        pauseButton.addEventListener('click', pauseAudio);
-		stopButton.addEventListener('click', stopAudio);
-		seekbar.addEventListener('input', seekAudio);
-        audioPlayer.addEventListener('timeupdate', updateSeekbar);
-		audioPlayer.addEventListener('loadedmetadata', setSeekbarMax);
-
+        // Function to update seek bar and timer
+        function updateSeekBar(playerId) {
+            const audioPlayer = document.getElementById(playerId + '-audio-player');
+            const seekbar = document.getElementById(playerId + '-seekbar');
+            const timeDisplay = document.getElementById(playerId + '-time');
+    
+            audioPlayer.addEventListener('timeupdate', () => {
+                const duration = audioPlayer.duration;
+                const currentTime = audioPlayer.currentTime;
+    
+                // Update seek bar value
+                seekbar.value = currentTime;
+    
+                // Update timer display
+                const minutes = Math.floor(currentTime / 60);
+                const seconds = Math.floor(currentTime % 60);
+                const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timeDisplay.textContent = formattedTime;
+            });
+    
+            // Update seek bar max value based on audio duration
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                seekbar.max = audioPlayer.duration;
+            });
+    
+            // Seek functionality
+            seekbar.addEventListener('input', () => {
+                audioPlayer.currentTime = seekbar.value;
+            });
+        }
+    
+        // Initialize for each player
+        toggleAudio('ce');
+        toggleAudio('se');
+        updateSeekBar('ce');
+        updateSeekBar('se');
     </script>
+    
 	
     
 </body>
