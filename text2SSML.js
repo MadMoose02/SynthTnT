@@ -8,7 +8,7 @@ function containsQuestionParticle(sentence) {
 }
 
 
-function removeNonLetters(sentence) {
+function removePunctuation(sentence) {
     return sentence.toString().replace(/[^a-zA-Z\s]/g, '');
 }
 
@@ -21,26 +21,23 @@ async function buildSSML(tags, question) {
 
 async function convert(text) {
     let isQuestion = containsQuestionParticle(text);
-    let words = removeNonLetters(text).split(" ");
     let tags = [];
 
-    for (let i = 0; i < words.length; i++) {
-        let word = words[i].toLowerCase();
+    while (text.length > 0) {
+        let word = text.split(' ')[0];
+        let ipa = DTTEC.lookup(removePunctuation(word.toLowerCase()));
+        if (ipa !== undefined) {
 
-        // Check if the word is in the DTTEC HashMap
-        let ipa = DTTEC.lookup(word);
-        if (ipa == undefined) {
+            // Convert ipa to ssml and push into tags
+            await ipa2SSML.convertToSSML(word, ipa).then((ssml) => {
+                ssml = '<phoneme' + ssml.split('<phoneme')[1].split('</phoneme>')[0] + '</phoneme>';
+                tags.push(ssml);
+            });
+        
+        } else { tags.push(word); }
 
-            // If the word is not in the DTTEC HashMap, use text-to-ipa
-            ipa = text2IPA.lookup(word);
-            ipa = (ipa.error == 'multi') ? ipa.text.split(" OR ")[0] : ipa.text;
-        }
-        // console.log(ipa);
-
-        // Convert the IPA and build SSML string
-        await ipa2SSML.convertToSSML(word, ipa).then((result) => {
-            tags.push(`<phoneme ${result.split("<phoneme ")[1].split("</phoneme>")[0]}</phoneme>`);
-        });
+        // Remove word from the text
+        text = text.replace(word, '', 1).replace(' ', '', 1);
     }
 
     return await buildSSML(tags, isQuestion);
@@ -48,8 +45,8 @@ async function convert(text) {
 
 
 function main() {
-    let sentence = "Hey, it have phagwa celebration today";
-    convert(sentence).then((_) => console.log(_));
+    let sentence = "Hey, it have a Phagwa celebration today";
+    convert(sentence).then((_) => console.log(`\nFinal SSML: ${_}`));
 }
 
 
