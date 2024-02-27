@@ -4,7 +4,7 @@ const { exec }             = require('child_process');
 const TextToSpeechV1       = require('ibm-watson/text-to-speech/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
 const outputPath           = './audio-gen';
-// const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/264b490d-905e-46e4-b667-f4b043a16308';
+// const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/5e269a46-8d37-4941-be9f-c077ff79edf3';
 const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/'
 
 let synthesisParams = {
