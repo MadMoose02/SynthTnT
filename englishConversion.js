@@ -1,13 +1,10 @@
-const CryptoJS = require('crypto-js');
 const ipa2SSML = require('@theresnotime/ipa-to-ssml');
 const Text2IPA = require('text-to-ipa');
-const DTTEC    = require('./local_folder/pronunciation.js');
+const DTTEC    = require('./pronunciation.js');
 
 
 function removeNonLetters(sentence) {
-    // Use a regular expression to match anything that is not a letter
-    let cleanSentence = sentence.replace(/[^a-zA-Z\s]/g, '');
-    return cleanSentence;
+    return sentence.toString().replace(/[^a-zA-Z\s]/g, '');
 }
 
 function extractStandardEnglish(text){
@@ -30,10 +27,13 @@ function extractStandardEnglish(text){
     return seWords;
 }
 
-async function getSESSML(map) {
+async function getSESSML(text) {
     let ssmlResults = new Map();
     try {
-        for (let [word, ipa] of map.entries()) {
+        // For each entry in the Standard English word map
+        for (let [word, ipa] of extractStandardEnglish(text).entries()) {
+
+            // Store the converted SSML with the word as the key
             ssmlResults.set(word, await ipa2SSML.convertToSSML(word, ipa));
         }
         return ssmlResults;
@@ -42,10 +42,13 @@ async function getSESSML(map) {
     }
 }
 
+module.exports = {
+    getSESSML
+};
+
 if (require.main === module) {
     let sentence = "Is he going to play a game with abir?";
-    let seWords = extractStandardEnglish(sentence);
-    getSESSML(seWords).then((result) => {
+    getSESSML(sentence).then((result) => {
         console.log(result);
     });
 }
