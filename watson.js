@@ -4,7 +4,8 @@ const { exec }             = require('child_process');
 const TextToSpeechV1       = require('ibm-watson/text-to-speech/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
 const outputPath           = './audio-gen';
-const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com';
+// const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/264b490d-905e-46e4-b667-f4b043a16308';
+const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/'
 
 let synthesisParams = {
     text: '',
@@ -51,27 +52,28 @@ async function setTTSVoice(voice) {
 function playAudio(audioPath) {
     let ifs = fs.createReadStream(audioPath);
     try { exec(`start ${audioPath}`); } 
-    catch (err) { console.log(`Error playing audio: ${err}`); } 
+    catch (err) { console.error(`WATSON: Error playing audio. Try manually playing ${audioPath}`); } 
     finally { ifs.close(); }
     return true;
 }
 
 async function speakText(text, 
+                         isSSML = false,
                          voice = synthesisParams.voice, 
-                         filename = `watson-tts-${Date.now()}`, 
-                         audioFormat = synthesisParams.accept.split('/')[1]) {
+                         filename = `watson-tts`, 
+                         audioFormat = `wav`) {
 
     if (!setTTSVoice(voice)) { return false; }
     console.log(`WATSON: Synthesizing audio using voice: ${voice}`);
     synthesisParams.text = text;
     synthesisParams.accept = `audio/${audioFormat}`;
     console.log(`WATSON: Using audio format: ${synthesisParams.accept}`);
-
+    
     // Check for output path
     if (!fs.existsSync(outputPath)) { fs.mkdirSync(outputPath); }
 
     // Use TextToSpeechV1 to synthesize audio
-    await textToSpeech.synthesize(synthesisParams)
+    let status = await textToSpeech.synthesize(synthesisParams)
         .then(response => {
             console.log(`WATSON: Speech audio synthesis successful`);
             
@@ -79,15 +81,17 @@ async function speakText(text,
             return (synthesisParams.accept === 'audio/wav') ? 
                 textToSpeech.repairWavHeaderStream(response.result) : response.result;
         }).then(buffer => {
+            filename += `${(isSSML ? '-ssml' : '')}-${Date.now()}`
             fs.writeFileSync(`${outputPath}/${filename}.${audioFormat}`, buffer);
             console.log(`WATSON: Synthesised audio written to file: ${outputPath}/${filename}.${audioFormat}`);
+            return true;
         }).catch(err => {
-            console.error(`WATSON: Error occurred while synthesizing audio: ${err.status} - ${err.statusText}`);
-            console.error(err)
+            console.error(`WATSON: Error occurred while synthesizing audio: ${err.status} - ${err.message}\n`);
             return false;
         });
 
     // Play synthesized audio
+    if (!status) { return false; }
     console.log(`WATSON: Playing synthesised speech audio...`);
     playAudio(`${outputPath}/${filename}.${audioFormat}`);
 }
