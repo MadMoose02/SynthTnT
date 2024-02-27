@@ -1,11 +1,21 @@
-const text2SSML = require('./text2SSML');
-const IBM       = require('./watson');
-
 async function main() {
-    let sentence = "Let we go celebrate Diwali!";
+    const {readFileSync} = require('fs');
+    const text2SSML = require('./text2SSML');
+    const DTTEC = require('./pronunciation');
+    const ipa2SSML = require('@theresnotime/ipa-to-ssml');
+    const IBM = require('./watson');
+
+    let sentence = "Hey, there's a phagwa celebration today";
+    // let sentence = "tomato";
+    // let ssml = readFileSync('./test-ssml.xml', 'utf8');
     let ssml = await text2SSML.convert(sentence);
+
     console.log("SSML (TTE/C):\n" + ssml);
-    await IBM.speakText(ssml, "en-GB_KateV3Voice", 'watson-tts-ssml');
+    await IBM.speakText(ssml, true);
 }
 
-main();
+
+if (require.main === module) {
+    console.clear();
+    main();
+}
