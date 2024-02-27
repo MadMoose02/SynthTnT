@@ -26,7 +26,7 @@ function readJsonFile(filePath) {
 
 //Function extracts the "pronunciation" attribute from the parsed json file data
 function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
-
+    console.log('DTTEC: Using ' + dictPath);
     let parsedJSON = readJsonFile(dictPath);
     if (!parsedJSON) {
         console.error('Error. No JSON data available.');
@@ -54,7 +54,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
                 }
             }
         });
-        console.log(`Loaded ${DTTECIPAHashMap.size} entries from ${dictPath}`);
+        console.log(`DTTEC: Loaded ${DTTECIPAHashMap.size} entries from ${dictPath}`);
     
     } catch (error) {
         console.error(`Error reading and compiling pronunciation attributes: ${error.message}`);
