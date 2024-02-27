@@ -1,11 +1,19 @@
 const fs = require('fs');
 const CryptoJS = require('crypto-js');
 
+var DTTECIPAHashMap = new Map();
+loadDTTECIPAHashMap();
+
 //Function used to read the json data from data.json
 function readJsonFile(filePath) {
     try {
-        // Read the contents of the JSON file synchronously
         const jsonData = fs.readFileSync(filePath, 'utf-8');
+
+        // Check if the JSON data is valid
+        if (jsonData === '') {
+            console.error('Error. No JSON data available.');
+            return null;
+        }
 
         // JSON string to JS Object
         return JSON.parse(jsonData);
@@ -17,7 +25,7 @@ function readJsonFile(filePath) {
 }
 
 //Function extracts the "pronunciation" attribute from the parsed json file data
-function getDTTECIPAHashMap(dictPath) {
+function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
 
     let parsedJSON = readJsonFile(dictPath);
     if (!parsedJSON) {
@@ -25,8 +33,6 @@ function getDTTECIPAHashMap(dictPath) {
     }
 
     try {
-        // Initialize a hashmap to store the "pronunciation" attributes
-        let pronunciationMap = new Map();
 
         // Iterate over the JSON data and build the hashmap
         parsedJSON.forEach(entry => {
@@ -44,12 +50,11 @@ function getDTTECIPAHashMap(dictPath) {
                 if (pronunciation.length > 0){
 
                     // Add the 'pronunciation' attribute to the array
-                    pronunciationMap.set(id, pronunciation[0]);
+                    DTTECIPAHashMap.set(id, pronunciation[0]);
                 }
             }
         });
-
-        return pronunciationMap;
+        console.log(`Loaded ${DTTECIPAHashMap.size} entries from ${dictPath}`);
     
     } catch (error) {
         console.error(`Error reading and compiling pronunciation attributes: ${error.message}`);
@@ -58,15 +63,13 @@ function getDTTECIPAHashMap(dictPath) {
 }
 
 // Function to lookup entries in the DTTEC HashMap
-function lookup(word, dictPath = 'data.json') {
-    let hm = getDTTECIPAHashMap(dictPath);
+function lookup(word) {
     let hash = CryptoJS.SHA256(word).toString();
-    return hm.get(hash) ? hm.get(hash).toString() : undefined;
+    return DTTECIPAHashMap.get(hash) ? DTTECIPAHashMap.get(hash).toString() : undefined;
 }
 
 // Export all funtions
 module.exports = {
-    getDTTECIPAHashMap,
+    loadDTTECIPAHashMap,
     lookup
 };
-
