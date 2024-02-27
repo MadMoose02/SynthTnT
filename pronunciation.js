@@ -38,7 +38,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
         parsedJSON.forEach(entry => {
         
             // Use the 'headword' attribute as the key 
-            let id = CryptoJS.SHA256(entry.headword).toString();
+            let id = CryptoJS.SHA256(entry.headword.toLowerCase()).toString();
             
             // Extract the 'pronunciation' attribute
             let pronunciation = entry.pronunciation;
