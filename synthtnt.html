@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynthTnT</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div id = player class="player">
+		<div id="thanks">
+			<h1><span class="ombre-text">Welcome to SynthTnT!</span></h1>
+			<p>Interact with the first Trinidadian and Tobagonian English Creole Text to Speech Application.</p>
+			<div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
+		</div>
+		
+		<div class="playarea">
+			<div id=pauseButton class="pause-stop"></div>
+			<div id="playButton"></div>
+			<div id= "stopButton" class="pause-stop"></div>
+		</div>
+		<div class="seekbar">
+			<input type="range" id="seekbar" value="0" step="0.1">
+			<audio id="audioPlayer" src="bring-de-rum.mp3"></audio>
+		</div>
+		<div id = "time" class="ombre-text">00:00</div>
+	</div>
+
+	<script>
+        const textInput = document.getElementById('textArea');
+        const playButton = document.getElementById('playButton');
+        const pauseButton = document.getElementById('pauseButton');
+		const stopButton = document.getElementById('stopButton');
+        const seekbar = document.getElementById('seekbar');
+        const audioPlayer = document.getElementById('audioPlayer');
+		const timeDisplay = document.getElementById('time');
+
+        function playAudio() {
+            audioPlayer.play();
+        }
+        function pauseAudio(){
+            audioPlayer.pause();
+        }
+		function stopAudio(){
+            audioPlayer.pause();
+			audioPlayer.currentTime = 0;
+        }
+		function updateSeekbar() {
+            seekbar.value = audioPlayer.currentTime;
+			updateTimeDisplay();
+        }
+        function seekAudio() {
+            audioPlayer.currentTime = seekbar.value;
+			updateTimeDisplay();
+        }
+		function setSeekbarMax() {
+            seekbar.max = audioPlayer.duration;
+        }
+		function updateTimeDisplay() {
+            const minutes = Math.floor(audioPlayer.currentTime / 60);
+            const seconds = Math.floor(audioPlayer.currentTime % 60);
+            const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timeDisplay.textContent = formattedTime;
+        }
+
+        playButton.addEventListener('click', playAudio);
+        pauseButton.addEventListener('click', pauseAudio);
+		stopButton.addEventListener('click', stopAudio);
+		seekbar.addEventListener('input', seekAudio);
+        audioPlayer.addEventListener('timeupdate', updateSeekbar);
+		audioPlayer.addEventListener('loadedmetadata', setSeekbarMax);
+
+    </script>
+	
+    
+</body>
+</html>

@@ -1,0 +1,132 @@
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #000000;
+}
+
+#thanks {
+    font-family: 'Times New Roman', Times, serif;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+}
+
+.ombre-text{
+    background: linear-gradient(to right, #ff0000, #ffffff, #999999);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+#thanks p{
+    font-size: 13pt;
+    color: white;
+    
+}
+
+#playButton {
+    cursor: pointer;
+    opacity: 0.85;
+    vertical-align: middle;
+    margin: 0 26px;
+    border: 3px solid red;
+    border-radius: 120px;
+    width: 120px;
+    height: 120px;
+    background: url(./button-imgs/play-btn.png) 15px 15px no-repeat;
+    background-size: 100px 90px;
+}
+
+#pauseButton {
+    cursor: pointer;
+    background: url(./button-imgs/pause-btn.png) 0 0 no-repeat;
+    background-size: 50px;
+}
+
+#stopButton{
+    cursor: pointer;
+    background: url(/button-imgs/stop-btn.png) 0 0 no-repeat;
+    background-size: 50px;
+}
+
+#time {
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    position: absolute;
+    left: 53%;
+    margin-left: -22px;
+    font-size: 20px;
+    bottom: 190px;
+}
+
+#pauseButton:hover,
+#playButton:hover,
+.pause-stop:hover,
+.seekbar:hover {
+    opacity: 0.7;
+}
+
+.playarea {
+    position: absolute;
+    top: 50%;
+    left: 53%;
+    height: 126px;
+    width: 320px;
+    margin-top: -63px;
+    margin-left: -160px;
+}
+
+.playarea div {
+    display: inline-block;
+}
+
+.pause-stop {
+    vertical-align: middle;
+    background-size: 66px 43px;
+    width: 66px;
+    height: 43px;
+}
+
+.seekbar {
+    cursor: pointer;
+    height: 27px;
+    position: absolute;
+    bottom: 240px;
+    left: 48%;
+}
+
+textarea {
+    margin-top: 10px;
+    margin-left: 50px;
+    width: 500px;
+    height: 100px;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
+    border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+    border-image: none;
+    border-radius: 6px 6px 6px 6px;
+    border-style: none solid solid none;
+    border-width: medium 1px 1px medium;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    color: #555555;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.4em;
+    padding: 5px 8px;
+    transition: background-color 0.2s ease 0s;
+  }
+  
+  textarea:focus {
+      background: none repeat scroll 0 0 #FFFFFF;
+      outline-width: 0;
+  }
+
+
