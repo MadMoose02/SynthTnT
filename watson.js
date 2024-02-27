@@ -1,9 +1,9 @@
-const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
+const fs                   = require('fs');
+const token                = require('./api-key.json')['access-token'];
+const TextToSpeechV1       = require('ibm-watson/text-to-speech/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
-const watsonTTSEndpoint = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com';
-const fs = require('fs');
-const token = require('./api-key.json')['access-token'];   // supply Waston API key in api-key.json
-const outputPath = './audio-gen';
+const outputPath           = './audio-gen';
+const watsonTTSEndpoint    = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com';
 
 let synthesisParams = {
     text: '',
@@ -17,11 +17,6 @@ let textToSpeech = new TextToSpeechV1({
     serviceUrl: `${watsonTTSEndpoint}`,
     accept: `${synthesisParams.accept}`
 });
-
-module.exports = {
-    getTTSVoices,
-    speakText
-};
 
 
 // Functions
@@ -51,6 +46,7 @@ async function setTTSVoice(voice) {
         };
 
         console.log(`Voice '${voice}' not found. Try invoking get_tts_voices() to get a list of available voices.`);
+        console.log(`Using default voice: ${synthesisParams.voice}`);
     })
     return false;
 }
@@ -64,7 +60,11 @@ function playAudio(audioPath) {
     return true;
 }
 
-async function speakText(voice, text, filename, audioFormat) {
+async function speakText(text, 
+                         voice = synthesisParams.voice, 
+                         filename = `watson-tts-${Date.now()}`, 
+                         audioFormat = synthesisParams.accept.split('/')[1]) {
+
     if (!setTTSVoice(voice)) { return false; }
     console.log(`Synthesizing audio using voice: ${voice}`);
     synthesisParams.text = text;
@@ -87,6 +87,7 @@ async function speakText(voice, text, filename, audioFormat) {
             console.log(`Synthesised audio written to file: ${outputPath}/${filename}.${audioFormat}`);
         }).catch(err => {
             console.log(`Error occurred while synthesizing audio: ${err.status} - ${err.statusText}`);
+            console.log(err)
             return false;
         });
 
@@ -96,6 +97,11 @@ async function speakText(voice, text, filename, audioFormat) {
     console.log(`Process complete.`);
 }
 
+module.exports = {
+    getTTSVoices,
+    setTTSVoice,
+    speakText
+};
 
 // Command line interface
 
@@ -106,5 +112,5 @@ if (require.main === module) {
         console.log('Usage: node watson.js <text>'); 
         return;
     }
-    speakText('en-GB_KateV3Voice', text, 'test-audio', 'wav');
+    speakText(text);
 }
