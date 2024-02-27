@@ -5,13 +5,13 @@ async function main() {
     const ipa2SSML = require('@theresnotime/ipa-to-ssml');
     const IBM = require('./watson');
 
-    let sentence = "Hey, there's a phagwa celebration today";
-    // let sentence = "tomato";
-    // let ssml = readFileSync('./test-ssml.xml', 'utf8');
+    let sentence = "Hey, there's a Phagwa celebration today"; //readFileSync('./test-ssml.xml', 'utf8');
     let ssml = await text2SSML.convert(sentence);
 
     console.log("SSML (TTE/C):\n" + ssml);
-    await IBM.speakText(ssml, true);
+
+    // await IBM.speakText(sentence); // pure BRIT ENG synthesis
+    await IBM.speakText(ssml, true); // synthesis with DTTEC influence
 }
 
 
