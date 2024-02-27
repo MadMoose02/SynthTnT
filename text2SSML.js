@@ -14,8 +14,8 @@ function removeNonLetters(sentence) {
 
 
 async function buildSSML(tags, question) {
-    let ssml = '<speak xml:lang="en-UK" version="1.1">' + tags.join('');
-    return ssml + (question ? "\n    <break time='1s'/> ?" : "") + "\n</speak>";
+    let ssml = '<p><s>' + tags.join(' ');
+    return ssml + (question ? "?" : "") + "</s></p>";
 }
 
 
@@ -25,7 +25,7 @@ async function convert(text) {
     let tags = [];
 
     for (let i = 0; i < words.length; i++) {
-        let word = words[i];
+        let word = words[i].toLowerCase();
 
         // Check if the word is in the DTTEC HashMap
         let ipa = DTTEC.lookup(word);
@@ -39,7 +39,7 @@ async function convert(text) {
 
         // Convert the IPA and build SSML string
         await ipa2SSML.convertToSSML(word, ipa).then((result) => {
-            tags.push(`\n    <phoneme ${result.split("<phoneme ")[1].split("</phoneme>")[0]}</phoneme>`);
+            tags.push(`<phoneme ${result.split("<phoneme ")[1].split("</phoneme>")[0]}</phoneme>`);
         });
     }
 
@@ -48,7 +48,7 @@ async function convert(text) {
 
 
 function main() {
-    let sentence = "Is he going to play a game with abir?";
+    let sentence = "Hey, it have phagwa celebration today";
     convert(sentence).then((_) => console.log(_));
 }
 
