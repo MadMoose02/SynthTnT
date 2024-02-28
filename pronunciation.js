@@ -43,13 +43,13 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
             // Extract the 'pronunciation' attribute
             let pronunciation = entry.pronunciation;
             
-            // Check if the 'pronunciation' attribute is defined
-            if (pronunciation != '') {
+            // Check if the 'pronunciation' attribute is defined and add to the array
+            if (pronunciation.length > 0) {
+                DTTECIPAHashMap.set(id, pronunciation[0]);
 
-                // Add only words that have a pronunciation
-                if (pronunciation.length > 0){
-
-                    // Add the 'pronunciation' attribute to the array
+                // Also add the alternate spellings as separate entries
+                for (let i = 0; i < entry.alternate_spelling.length; i++) {
+                    id = CryptoJS.SHA256(entry.alternate_spelling[i].toLowerCase()).toString();
                     DTTECIPAHashMap.set(id, pronunciation[0]);
                 }
             }
