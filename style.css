@@ -48,7 +48,7 @@ textarea {
     border-style: none solid solid none;
     border-width: medium 1px 1px medium;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
-    color: #555555;
+    color: white;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 1em;
     line-height: 1.4em;
@@ -57,8 +57,24 @@ textarea {
   }
   
 textarea:focus {
-    background: none repeat scroll 0 0 #FFFFFF;
+    background: none repeat scroll 0 0 #1b1b1b; ;
     outline-width: 0;
+}
+
+#submit-btn{
+    background-color: #ff0000af;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    color:  #000000;
+    font-size: 17px;
+    font-family:'Times New Roman', Times, serif;
+}
+
+#submit-btn:hover{
+    color: #ff0000af;
+    background-color: #000000;
+    border: 1px solid #5c0101;
+    text-decoration: none;
 }
 
 
@@ -105,9 +121,24 @@ img:hover,
     margin:10px;
 }
 
+/* Audio Dropdown Menu */
+.audio-dropbox {
+    text-align: center;
+    margin: 10px;
+    
+}
 
+.audio-dropbox select {
+    width: 100%; 
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 20px;
+    border: 2px solid rgb(99, 17, 17);
+}
 
-
+.audio-dropbox select {
+    background-color: #444444; 
+}
 
 
 
