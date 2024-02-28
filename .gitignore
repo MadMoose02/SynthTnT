@@ -1,1 +1,8 @@
 api-key.json
+
+# Exclude node_modules folder
+node_modules/*
+
+# Exclude files from audio-gen folder
+audio-gen/*.wav
+audio-gen/*.mp3

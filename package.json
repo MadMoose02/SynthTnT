@@ -2,6 +2,7 @@
   "dependencies": {
     "@theresnotime/ipa-to-ssml": "^1.2.0",
     "crypto-js": "^4.2.0",
+    "ibm-watson": "^8.0.0",
     "text-to-ipa": "^1.0.0"
   }
 }

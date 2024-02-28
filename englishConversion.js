@@ -1,19 +1,8 @@
-const ipaToSSML = require('@theresnotime/ipa-to-ssml');
-const pronunciation = require('./local_folder/pronunciation.js');
+const CryptoJS = require('crypto-js');
+const ipa2SSML = require('@theresnotime/ipa-to-ssml');
+const Text2IPA = require('text-to-ipa');
+const DTTEC    = require('./local_folder/pronunciation.js');
 
-// Main program
-/*const readline = require('readline');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.question('Please enter sentence: ', (userInput) => {
-  console.log(`You entered: ${userInput}`);
-  rl.close();
-});
-*/
 
 function removeNonLetters(sentence) {
     // Use a regular expression to match anything that is not a letter
@@ -21,73 +10,42 @@ function removeNonLetters(sentence) {
     return cleanSentence;
 }
 
-function getWords(userInput){
-    const words = userInput.split(" ");
-    return words;
-}
+function extractStandardEnglish(text){
+    let words = removeNonLetters(text).split(" ");
+    let seWords = new Map();
 
-function hashWords(words){
-    let hashedWords = [];
+    // Remove any words that are in the DTTEC HashMap
     for (let i = 0; i < words.length; i++) {
-        hashedWords[i] = CryptoJS.SHA256(words[i]).toString();
-    }
+        let word = words[i];
     
-    return hashedWords;
-}
+        // Words found in the DTTEC HashMap are skipped
+        if (DTTEC.lookup(word)) { continue; }
 
-const CryptoJS = require('crypto-js');
-let sentence = "Is he going to play a game with abir?";
-let words = getWords(removeNonLetters(sentence));
-console.log(words);
-
-let hashedWords = hashWords(words);
-
-const jsonFilePath = 'data.json';
-const jsonData = pronunciation.readJsonFile(jsonFilePath);
-const pronunciationMap = pronunciation.extractPronunciationAttribute(jsonData);
-
-for (let i = 0; i < hashedWords.length; i++) {
-  const hashedWord = hashedWords[i];
-
-  if (pronunciationMap.hasOwnProperty(hashedWord)) {
-    // If the hashed word exists in the map, remove it from both arrays
-    hashedWords.splice(i, 1);
-    words.splice(i, 1);
-
-    // Adjust the loop index to account for the removed element
-    i--;
-  }
-}
-
-const TextToIPA = require('text-to-ipa');
-let ipa = [];
-for (let i = 0; i < words.length; i++) {
-    let result = TextToIPA.lookup(words[i]);
-    // console.log(result);
-    (result.error == 'multi') ? ipa.push(result.text.split(" OR ")[0]) : ipa.push(result.text);
-}
-
-console.log(ipa);
-
-async function convertTextToSSML(words, ipa) {
-  let ssmlResults =[];
-  try {
-    for (let i = 0; i < ipa.length; i++){
-      ssmlResults[i]= await ipaToSSML.convertToSSML(words[i],ipa[i]);
+        // Add the word to the map
+        let ipa = Text2IPA.lookup(word);
+        (ipa.error == 'multi') ? 
+            seWords.set(word, ipa.text.split(" OR ")[0]) :
+            seWords.set(word, ipa.text);
     }
-    console.log('SSML Result:', ssmlResults);
-  } catch (error) {
-    console.error('Error:', error);
-  }
+    return seWords;
 }
 
-convertTextToSSML(words, ipa);
+async function getSESSML(map) {
+    let ssmlResults = new Map();
+    try {
+        for (let [word, ipa] of map.entries()) {
+            ssmlResults.set(word, await ipa2SSML.convertToSSML(word, ipa));
+        }
+        return ssmlResults;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
-
-
-
-
-
-
-
-
+if (require.main === module) {
+    let sentence = "Is he going to play a game with abir?";
+    let seWords = extractStandardEnglish(sentence);
+    getSESSML(seWords).then((result) => {
+        console.log(result);
+    });
+}
