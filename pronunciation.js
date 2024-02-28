@@ -38,7 +38,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
         parsedJSON.forEach(entry => {
         
             // Use the 'headword' attribute as the key 
-            let id = CryptoJS.SHA256(entry.headword.toLowerCase()).toString();
+            let id = CryptoJS.SHA256(entry.headword.trim().toLowerCase()).toString();
             
             // Extract the 'pronunciation' attribute
             let pronunciation = entry.pronunciation;
@@ -49,7 +49,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
 
                 // Also add the alternate spellings as separate entries
                 for (let i = 0; i < entry.alternate_spelling.length; i++) {
-                    id = CryptoJS.SHA256(entry.alternate_spelling[i].toLowerCase()).toString();
+                    id = CryptoJS.SHA256(entry.alternate_spelling[i].trim().toLowerCase()).toString();
                     DTTECIPAHashMap.set(id, pronunciation[0]);
                 }
             }
