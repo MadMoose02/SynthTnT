@@ -1,0 +1,5 @@
+# Exclude node_modules folder
+node_modules/*
+
+# MacOS files
+.DS_Store
