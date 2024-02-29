@@ -1,0 +1,146 @@
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #000000;
+}
+
+
+/* Welcome Section */
+#welcome {
+    font-family: 'Times New Roman', Times, serif;
+    position: relative;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 22px;
+}
+
+#welcome p{
+    font-size: 13pt;
+    color: white;
+    
+}
+
+.ombre-text{
+    background: linear-gradient(to right, #ff0000, #ffffff, #444343);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+
+/* Text Input Section */
+textarea {
+    margin-top: 10px;
+    width: 60vh;
+    height: 15vh;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.07);
+    border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;
+    border-image: none;
+    border-radius: 6px 6px 6px 6px;
+    border-style: none solid solid none;
+    border-width: medium 1px 1px medium;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    color: white;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.4em;
+    padding: 5px 8px;
+    transition: background-color 0.2s ease 0s;
+  }
+  
+textarea:focus {
+    background: none repeat scroll 0 0 #1b1b1b; ;
+    outline-width: 0;
+}
+
+#submit-btn{
+    background-color: #ff0000af;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    color:  #000000;
+    font-size: 17px;
+    font-family:'Times New Roman', Times, serif;
+}
+
+#submit-btn:hover{
+    color: #ff0000af;
+    background-color: #000000;
+    border: 1px solid #5c0101;
+    text-decoration: none;
+}
+
+
+/* Player Section */
+.player{
+    position: relative;
+    top: 5%;
+    justify-content: space-between; 
+    padding: 20px; 
+    text-align: center;
+    display: flex;
+}
+
+.column {
+    flex: 1; 
+    border: 2px solid rgb(38, 39, 38);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.buttons-cols{
+    margin-top: 10px;
+    display: flex;
+    flex: 3;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+img:hover,
+.seekbar:hover {
+    opacity: 0.7;
+}
+
+.play-btn img{
+    height: 20vh;
+}
+
+.pause-stop-btn img{
+    height: 5vh;
+}
+
+.seekbar{
+    margin:10px;
+}
+
+/* Audio Dropdown Menu */
+.audio-dropbox {
+    text-align: center;
+    margin: 10px;
+    
+}
+
+.audio-dropbox select {
+    width: 100%; 
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 20px;
+    border: 2px solid rgb(99, 17, 17);
+}
+
+.audio-dropbox select {
+    background-color: #444444; 
+}
+
+
+
+
+
