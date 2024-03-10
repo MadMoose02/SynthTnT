@@ -82,6 +82,31 @@
         function changeAudio(playerId) {
             const audioSelect = document.getElementById(playerId + '-audio-select');
             const audioPlayer = document.getElementById(playerId + '-audio-player');
+            var textData = document.getElementById('textarea');
+            const sampleText = ["Hey, there's a Phagwa celebration today",
+            "Don't get me started on Patrice, she only likes to cause Bacchanal",
+            "Ah catch ah vap the other day"]
+
+            switch(audioSelect.value){
+                case("ce-audio-1.wav"):
+                    textData.placeholder = sampleText[0];
+                    break;
+                case("ce-audio-2.wav"):
+                    textData.placeholder = sampleText[1];
+                    break;
+                case("ce-audio-3.wav"):
+                    textData.placeholder = sampleText[2];
+                    break;
+                case("se-audio-1.wav"):
+                    textData.placeholder = sampleText[0];
+                    break;
+                case("se-audio-2.wav"):
+                    textData.placeholder = sampleText[1];
+                    break;
+                case("se-audio-3.wav"):
+                    textData.placeholder = sampleText[2];
+                    break;
+            }
 
             // Set the selected audio file as the source for the audio player
             audioPlayer.src =  './' + playerId + '-audio/' + audioSelect.value;
