@@ -9,6 +9,7 @@ body {
 
 
 /* Welcome Section */
+#start-up,
 #welcome {
     font-family: 'Times New Roman', Times, serif;
     position: relative;
@@ -19,7 +20,10 @@ body {
     font-size: 22px;
 }
 
-#welcome p{
+#tester-prompt p,
+#start-up p,
+#welcome p,
+#instructions{
     font-size: 13pt;
     color: white;
     
@@ -33,9 +37,9 @@ body {
 
 
 /* Text Input Section */
-textarea {
-    margin-top: 10px;
-    width: 60vh;
+#display-area,
+#textarea {
+    width: 60%;
     height: 15vh;
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -56,11 +60,12 @@ textarea {
     transition: background-color 0.2s ease 0s;
   }
   
-textarea:focus {
+#textarea:focus {
     background: none repeat scroll 0 0 #1b1b1b; ;
     outline-width: 0;
 }
 
+#eval-btn,
 #submit-btn{
     background-color: #ff0000af;
     border: 1px solid #000000;
@@ -70,6 +75,7 @@ textarea:focus {
     font-family:'Times New Roman', Times, serif;
 }
 
+#eval-btn:hover,
 #submit-btn:hover{
     color: #ff0000af;
     background-color: #000000;
@@ -77,13 +83,98 @@ textarea:focus {
     text-decoration: none;
 }
 
+#tester-prompt{
+    width: 90vh;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 5%;
+    padding: 20px;
+    border: #af0c0c 2px solid;
+}
 
+
+/* Testing Page */
+#start-up{
+    background-color: #070707;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 10vh;
+    padding-top: 5vh;
+    border: #af0c0c 2px solid;
+    border-radius: 5px;
+}
+
+#instructions{
+    width: 60%;
+    height: 15%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+#display-area{
+    background: none repeat scroll 0 0 #141414; 
+    margin-bottom: 2%;
+}
+
+.audio-dropbox {
+    width: 70vh;
+    height: 15vh;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    
+}
+
+.audio-dropbox select {
+    width: 100%; 
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 20px;
+    border: 2px solid rgb(99, 17, 17);
+}
+
+.audio-dropbox select {
+    background-color: #444444; 
+}
+
+
+/* Form Section*/
+#form {
+    filter: invert(1);
+    text-align: center;
+}
+
+iframe{
+    width: 90%;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+#questionnaire {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10vh;
+    border: #af0c0c 2px solid;
+    border-radius: 5px;
+    background-color: #0f0f0f;
+}
+
+
+
+/* Templated*/
 /* Player Section */
 .player{
     position: relative;
     top: 5%;
     justify-content: space-between; 
-    padding: 20px; 
+    padding: 50px; 
     text-align: center;
     display: flex;
 }
@@ -121,26 +212,26 @@ img:hover,
     margin:10px;
 }
 
-/* Audio Dropdown Menu */
-.audio-dropbox {
-    text-align: center;
-    margin: 10px;
-    
+
+/* Scroll Button*/
+#scroll-to-top-arrow,
+#scroll-to-top-arrow i{
+    float: right;
+    background-color: #af0c0c; 
+    border-radius: 50%; 
+    border: #000000;
+    padding: 10px
 }
 
-.audio-dropbox select {
-    width: 100%; 
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 20px;
-    border: 2px solid rgb(99, 17, 17);
+#scroll{
+    height: 15%;
 }
 
-.audio-dropbox select {
-    background-color: #444444; 
+#back-arrow {
+    color: #af0c0c; 
 }
 
-
-
-
-
+#back button{
+    background-color: #000000;
+    border-radius: 3pt;
+}
