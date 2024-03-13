@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynthTnT</title>
     <link rel="stylesheet" href="style.css">
-    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 <body>
     <div id="welcome">
@@ -14,7 +15,7 @@
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
     </div>
-    <div class = "player">
+    <div id="player" class = "player">
         <div id="se-player" class="column">
             <div class="playarea">
                 <div class="buttons-cols">
@@ -29,14 +30,6 @@
                 </div>
 
                 <div class="time"><span id = "se-time" class="ombre-text">0:00</span>
-                </div>
-                <div class = "audio-dropbox">
-                    <select id="se-audio-select" onchange="changeAudio('se')">
-                        <option value="">--Select an SE Audio--</option>
-                        <option value="se-audio-1.wav">SE Audio 1</option>
-                        <option value="se-audio-2.wav">SE Audio 2</option>
-                        <option value="se-audio-3.wav">SE Audio 3</option>
-                    </select>
                 </div>
                 <h2><span class="ombre-text">Standard English</span></h2>
             </div>
@@ -57,142 +50,27 @@
 
                 <div class="time"><span id = "ce-time" class="ombre-text">0:00</span>
                 </div>
-                <div class = "audio-dropbox">
-                    <select id="ce-audio-select" onchange="changeAudio('ce')">
-                        <option value="">--Select a CE Audio--</option>
-                        <option value="ce-audio-1.wav">CE Audio 1</option>
-                        <option value="ce-audio-2.wav">CE Audio 2</option>
-                        <option value="ce-audio-3.wav">CE Audio 3</option>
-                    </select>
-                </div>
                 <h2><span class="ombre-text">Creole English</span></h2>
             </div>
         </div>
     </div>
+    
 
-	<script>
-        // Get text from input field
-        function getData() {
-            var textData = document.getElementById('textarea').value;
+    <div id="tester-prompt">
+        <h1><span class="ombre-text">Become a Beta Tester!</span></h1>
+        <p>Join our team as a beta tester and be among the first to experience our latest innovations. 
+            We invite YOU to become a pioneer in testing our product. 
+            Simply listen to sample audios and provide feedback on pronunciation accuracy. 
+            If you're ready to participate, click the button below to access a brief questionnaire. 
+            Your insights are highly valued. Thank you in advance for your contribution!
+        </p>
+        
+        <a href="testing.html"><button id="eval-btn"><b>Go to Evaluation</b></button></a>
+    </div>
 
-            console.log("Text data:", textData);
-        }
-
-        // Function to change audio file
-        function changeAudio(playerId) {
-            const audioSelect = document.getElementById(playerId + '-audio-select');
-            const audioPlayer = document.getElementById(playerId + '-audio-player');
-            var textData = document.getElementById('textarea');
-            const sampleText = ["Hey, there's a Phagwa celebration today",
-            "Don't get me started on Patrice, she only likes to cause Bacchanal",
-            "Ah catch ah vap the other day"]
-
-            switch(audioSelect.value){
-                case("ce-audio-1.wav"):
-                    textData.placeholder = sampleText[0];
-                    break;
-                case("ce-audio-2.wav"):
-                    textData.placeholder = sampleText[1];
-                    break;
-                case("ce-audio-3.wav"):
-                    textData.placeholder = sampleText[2];
-                    break;
-                case("se-audio-1.wav"):
-                    textData.placeholder = sampleText[0];
-                    break;
-                case("se-audio-2.wav"):
-                    textData.placeholder = sampleText[1];
-                    break;
-                case("se-audio-3.wav"):
-                    textData.placeholder = sampleText[2];
-                    break;
-            }
-
-            // Set the selected audio file as the source for the audio player
-            audioPlayer.src =  './' + playerId + '-audio/' + audioSelect.value;
-        }
-
-        // Function to handle play, pause, and stop actions
-        function toggleAudio(playerId) {
-            const audioPlayer = document.getElementById(playerId + '-audio-player');
-            const playBtn = document.getElementById(playerId + '-play-btn');
-            const pauseBtn = document.getElementById(playerId + '-pause-btn');
-            const stopBtn = document.getElementById(playerId + '-stop-btn');
-    
-            playBtn.addEventListener('click', () => {
-                // If other player is playing it will be paused
-                // before playing audio from the next
-                pauseOtherPlayer(playerId);
-                audioPlayer.play();
-            });
-    
-            pauseBtn.addEventListener('click', () => {
-                audioPlayer.pause();
-            });
-    
-            stopBtn.addEventListener('click', () => {
-                audioPlayer.pause();
-                audioPlayer.currentTime = 0;
-            });
-        }
-    
-        // Function to pause the other player
-        function pauseOtherPlayer(currentPlayerId) {
-            const playerIds = ['ce', 'se'];
-
-            playerIds.forEach(playerId => {
-                if (playerId !== currentPlayerId) {
-                    const otherAudioPlayer = document.getElementById(playerId + '-audio-player');
-                    otherAudioPlayer.pause();
-                }
-            });
-        }
-
-        // Function to update seek bar and timer
-        function updateSeekBar(playerId) {
-            const audioPlayer = document.getElementById(playerId + '-audio-player');
-            const seekbar = document.getElementById(playerId + '-seekbar');
-            const timeDisplay = document.getElementById(playerId + '-time');
-    
-            audioPlayer.addEventListener('timeupdate', () => {
-                const duration = audioPlayer.duration;
-                const currentTime = audioPlayer.currentTime;
-    
-                // Update seek bar value
-                seekbar.value = currentTime;
-    
-                // Update timer display
-                const minutes = Math.floor(currentTime / 60);
-                const seconds = Math.floor(currentTime % 60);
-                const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                timeDisplay.textContent = formattedTime;
-            });
-    
-            // Update seek bar max value based on audio duration
-            audioPlayer.addEventListener('loadedmetadata', () => {
-                seekbar.max = audioPlayer.duration;
-            });
-    
-            // Seek functionality
-            seekbar.addEventListener('input', () => {
-                audioPlayer.currentTime = seekbar.value;
-            });
-
-            // Reset seek bar after the audio has ended
-            audioPlayer.addEventListener('ended', () => {
-                seekbar.value = 0;
-                timeDisplay.textContent = '00:00';
-            });
-        }
-    
-        // Initialize for each player
-        toggleAudio('ce');
-        toggleAudio('se');
-        updateSeekBar('ce');
-        updateSeekBar('se');
-    </script>
-    
-	
-    
+    <div id="scroll">
+        <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button>
+    </div>
+    <script src="script.js"></script
 </body>
 </html>
