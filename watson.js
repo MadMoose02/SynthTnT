@@ -21,8 +21,10 @@ let textToSpeech = new TextToSpeechV1({
 });
 
 
-// Functions
-
+/**
+ * Retrieves a list of text-to-speech voices.
+ * @return {?Array} Array of available voices for text-to-speech or null if an error occurs.
+ */
 async function getTTSVoices() {
     let x = await textToSpeech.listVoices().then(result => {
         return result.result.voices;
@@ -33,35 +35,54 @@ async function getTTSVoices() {
     return x;
 }
 
+/**
+ * Set the text-to-speech (TTS) voice to the specified voice.
+ * @param {string} voice - The name of the voice to set for TTS.
+ * @return {boolean} Returns true if the voice was successfully set, false otherwise.
+ */
 async function setTTSVoice(voice) { 
     await getTTSVoices().then(voices => {
         if (voices === null) return false;
-        for (let _ of voices) {
-            if (_.name === voice) {
-                synthesisParams.voice = voice;
-                return true;
-            }
-        };
-
+        for (let v of voices) {
+            if (v.name !== voice) continue;
+            synthesisParams.voice = voice;
+            return true;
+        }
         console.log(`WATSON: Voice '${voice}' not found. Try invoking get_tts_voices() to get a list of available voices.`);
         console.log(`WATSON: Using default voice '${synthesisParams.voice}'`);
-    })
+    });
     return true;
 }
 
+/**
+ * Generates and plays audio from the given path (seems to only work on Windows. Tested on Windows 11
+ * and MacOS Big Sur).
+ * @param {string} audioPath - the file path of the audio to be played
+ */
 function playAudio(audioPath) {
     let ifs = fs.createReadStream(audioPath);
     try { exec(`start ${audioPath}`); } 
     catch (err) { console.error(`WATSON: Error playing audio. Try manually playing ${audioPath}`); } 
     finally { ifs.close(); }
-    return true;
 }
 
-async function speakText(text, 
-                         isSSML = false,
-                         voice = synthesisParams.voice, 
-                         filename = `watson-tts`, 
-                         audioFormat = `wav`) {
+/**
+ * This function synthesizes input text into speech audio using the IBM Watson Text-to-Speech service.
+ * @param {string}  text        The text to be synthesized into speech audio
+ * @param {boolean} isSSML      Whether the text is in SSML format
+ * @param {string}  voice       The voice to be used for synthesis (default: `en-GB_KateV3Voice`)
+ * @param {string}  outputPath  The path where the audio file should be stored
+ * @param {string}  filename    The name of the audio file
+ * @param {string}  audioFormat The format of the audio file (default: `wav`)
+ * @returns 
+ */
+async function speakText(
+    text, 
+    isSSML      = false,
+    voice       = synthesisParams.voice, 
+    outputPath  = `${outputPath}`,
+    filename    = `watson-tts`, 
+    audioFormat = `wav`) {
 
     if (!setTTSVoice(voice)) { return false; }
     console.log(`WATSON: Synthesizing audio using voice: ${voice}`);
@@ -102,14 +123,13 @@ module.exports = {
     speakText
 };
 
-// Command line interface
-
-if (require.main === module) {
-    const text = process.argv[2];
-    if (!text) { 
-        console.error('\nError: No text input supplied');
-        console.log('Usage: node watson.js <text>'); 
-        return;
-    }
-    speakText(text);
-}
+// Command line interface (Node.js)
+// if (require.main === module) {
+//     const text = process.argv[2];
+//     if (!text) { 
+//         console.error('\nError: No text input supplied');
+//         console.log('Usage: node watson.js <text>'); 
+//         return;
+//     }
+//     speakText(text);
+// }
