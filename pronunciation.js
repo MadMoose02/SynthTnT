@@ -68,8 +68,13 @@ function lookup(word) {
     return DTTECIPAHashMap.get(hash) ? DTTECIPAHashMap.get(hash).toString() : undefined;
 }
 
-// Export all funtions
-module.exports = {
-    loadDTTECIPAHashMap,
-    lookup
-};
+// Command line (Node.js)
+if (require.main === module) {
+    const text = process.argv[2];
+    if (!text) { 
+        console.error('\nError: No text input supplied');
+        console.log('Usage: node pronunciation.js <text>'); 
+        return;
+    }
+    console.log(`DTTEC: ${text} => ${lookup(text)}`);
+}
