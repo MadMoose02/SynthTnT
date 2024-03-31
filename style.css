@@ -5,13 +5,14 @@ html, body {
 
 body {
     background-color: #000000;
+    font-family: 'Oswald', sans-serif;
+    margin: 0;
 }
 
 
 /* Welcome Section */
 #start-up,
 #welcome {
-    font-family: 'Times New Roman', Times, serif;
     position: relative;
     top: 10px;
     left: 0;
@@ -32,6 +33,7 @@ body {
 .ombre-text{
     background: linear-gradient(to right, #ff0000, #ffffff, #444343);
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
@@ -58,6 +60,7 @@ body {
     line-height: 1.4em;
     padding: 5px 8px;
     transition: background-color 0.2s ease 0s;
+    border: 2px solid rgb(38, 39, 38);
   }
   
 #textarea:focus {
@@ -72,7 +75,9 @@ body {
     border-radius: 5px;
     color:  #000000;
     font-size: 17px;
-    font-family:'Times New Roman', Times, serif;
+    font-weight: bold;
+    padding: 7px 15px;
+    text-decoration: none;
 }
 
 #eval-btn:hover,
@@ -81,6 +86,7 @@ body {
     background-color: #000000;
     border: 1px solid #5c0101;
     text-decoration: none;
+    cursor: pointer;
 }
 
 #tester-prompt{
@@ -95,7 +101,7 @@ body {
 
 
 /* Testing Page */
-#start-up{
+#start-up {
     background-color: #070707;
     width: 80%;
     margin-left: auto;
@@ -201,7 +207,7 @@ img:hover,
 }
 
 .play-btn img{
-    height: 20vh;
+    height: 15vh;
 }
 
 .pause-stop-btn img{
