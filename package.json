@@ -1,15 +1,12 @@
 {
   "dependencies": {
-    "@theresnotime/ipa-to-ssml": "^1.2.0",
-    "crypto-js": "^4.2.0",
-    "ibm-watson": "^8.0.0",
-    "text-to-ipa": "^1.0.0"
+    "fetch": "^1.1.0",
+    "ibm-watson": "^8.0.0"
   },
   "name": "synthtnt",
   "description": "Code repository for joint research conducted for the INFO 3604 Final Project: SynthTnT",
   "version": "1.0.0",
   "main": "main.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
