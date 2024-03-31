@@ -5,23 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynthTnT</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
 </head>
 <body>
     <div id="welcome">
         <h1><span class="ombre-text">Welcome to SynthTnT!</span></h1>
-        <p>Interact with the first Trinidadian and Tobagonian English Creole Text to Speech Application:</p>
+        <p>Interact with the first Trinidadian English/Creole Text to Speech Application</p>
+        <br><br>
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
+        <br>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
     </div>
     <div id="player" class = "player">
         <div id="se-player" class="column">
             <div class="playarea">
                 <div class="buttons-cols">
-                    <div id="se-pause-btn" class = "pause-stop-btn"><img src="./button-imgs/pause-btn.png"></div>
-                    <div id="se-play-btn" class = "play-btn"><img src="./button-imgs/play-btn.png"></div>
-                    <div id= "se-stop-btn" class = "pause-stop-btn"><img src="./button-imgs/stop-btn.png"></div>
+                    <div id="se-pause-btn" class="pause-stop-btn"><img src="./button-imgs/pause-btn.png"></div>
+                    <div id="se-play-btn" class="play-btn"><img src="./button-imgs/play-btn-1.png"></div>
+                    <div id="se-stop-btn" class="pause-stop-btn"><img src="./button-imgs/stop-btn.png"></div>
                 </div>
                 
                 <div class="seekbar">
@@ -29,7 +30,7 @@
                     <audio id="se-audio-player" src=""></audio>
                 </div>
 
-                <div class="time"><span id = "se-time" class="ombre-text">0:00</span>
+                <div class="time"><span id="se-time" class="ombre-text">0:00</span>
                 </div>
                 <h2><span class="ombre-text">Standard English</span></h2>
             </div>
@@ -38,9 +39,9 @@
         <div id = "ce-player" class = "column">
             <div class="playarea">
                 <div class="buttons-cols">
-                    <div id="ce-pause-btn" class = "pause-stop-btn"><img src="./button-imgs/pause-btn.png"></div>
-                    <div id="ce-play-btn" class = "play-btn"><img src="./button-imgs/play-btn.png"></div>
-                    <div id= "ce-stop-btn" class = "pause-stop-btn"><img src="./button-imgs/stop-btn.png"></div>
+                    <div id="ce-pause-btn" class="pause-stop-btn"><img src="./button-imgs/pause-btn.png"></div>
+                    <div id="ce-play-btn" class="play-btn"><img src="./button-imgs/play-btn-1.png"></div>
+                    <div id="ce-stop-btn" class="pause-stop-btn"><img src="./button-imgs/stop-btn.png"></div>
                 </div>
                 
                 <div class="seekbar">
@@ -48,7 +49,7 @@
                     <audio id="ce-audio-player" src=""></audio>
                 </div>
 
-                <div class="time"><span id = "ce-time" class="ombre-text">0:00</span>
+                <div class="time"><span id="ce-time" class="ombre-text">0:00</span>
                 </div>
                 <h2><span class="ombre-text">Creole English</span></h2>
             </div>
@@ -59,10 +60,13 @@
     <div id="tester-prompt">
         <h1><span class="ombre-text">Become a Beta Tester!</span></h1>
         <p>Join our team as a beta tester and be among the first to experience our latest innovations. 
-            We invite YOU to become a pioneer in testing our product. 
+            We invite YOU to become a pioneer in testing our product.
+            <br><br>
             Simply listen to sample audios and provide feedback on pronunciation accuracy. 
             If you're ready to participate, click the button below to access a brief questionnaire. 
-            Your insights are highly valued. Thank you in advance for your contribution!
+            Your insights are highly valued.
+            <br><br>
+            Thank you in advance for your contribution!
         </p>
         
         <a href="testing.html"><button id="eval-btn"><b>Go to Evaluation</b></button></a>
@@ -71,6 +75,8 @@
     <div id="scroll">
         <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button>
     </div>
-    <script src="script.js"></script
+    <script type="text/javascript" src="watson-web.js"></script>
+    <script type="text/javascript" src="text2SSML.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
