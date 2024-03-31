@@ -1,8 +1,12 @@
 // Get text from input field
-function getData() {
-    var textData = document.getElementById('textarea').value;
+async function getData() {
+    let textData = document.getElementById('textarea').value;
+    console.log("Text:", textData);
+    let ssml = await convert(textData);
+    console.log("SSML (TTE/C):\n" + ssml);
 
-    console.log("Text data:", textData);
+    // await speakText(textData, filename="se-audio.wav"); // pure BRIT ENG synthesis
+    await speakText(ssml, true, 'en-GB_KateV3Voice', '/', filename="ce-audio.wav"); // synthesis with DTTEC influence
 }
 
 // Function to change audio file
