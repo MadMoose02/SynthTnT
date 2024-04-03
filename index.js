@@ -48,6 +48,12 @@ function getTranscript(filename) {
     return transcript;
 }
 
+/* Health check */
+app.get('/health', function (req, res) {
+    console.log(`[${getDateTime()}] Health check`)
+    res.status(200).send('OK');
+});
+
 /* Serve home page */
 app.get('/', function (req, res) {
     console.log(`[${getDateTime()}] Serving home page`)
