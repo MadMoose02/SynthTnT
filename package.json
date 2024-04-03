@@ -1,5 +1,5 @@
 {
-  "name": "synthtnt-express",
+  "name": "synthtnt",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "dot-env": "^0.0.1",
-    "ibm-watson": "^9.0.1"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ibm-watson": "^9.0.1",
+    "yarn": "^1.22.22"
   }
 }
