@@ -1,28 +1,17 @@
 {
-  "dependencies": {
-    "fetch": "^1.1.0",
-    "ibm-watson": "^8.0.0"
-  },
-  "name": "synthtnt",
-  "description": "Code repository for joint research conducted for the INFO 3604 Final Project: SynthTnT",
+  "name": "synthtnt-express",
   "version": "1.0.0",
-  "main": "main.js",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MadMoose02/SynthTnT.git"
-  },
-  "keywords": [
-    "ipa",
-    "ssml",
-    "tts"
-  ],
-  "author": "",
+  "author": "Keshan Moosai",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MadMoose02/SynthTnT/issues"
-  },
-  "homepage": "https://github.com/MadMoose02/SynthTnT#readme"
+  "dependencies": {
+    "dot-env": "^0.0.1",
+    "ibm-watson": "^9.0.1"
+  }
 }
