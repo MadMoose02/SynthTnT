@@ -1,3 +1,4 @@
+import { toIPA } from 'arpabet-and-ipa-convertor-t';
 let DTTECEndpoint = `https://dttec-api.onrender.com/get-pronunciation`;
 let defaultXML = `
 <?xml version="1.0"?>
@@ -44,7 +45,7 @@ export async function convert(text) {
         if (response.status === 'OK') {
 
             // Convert ipa to ssml and push into tags
-            await convertToSSML(word, response.pronunciation).then((ssml) => {
+            await convertToSSML(word, toIPA(response.pronunciation)).then((ssml) => {
                 ssml = '<phoneme' + ssml.split('<phoneme')[1].split('</phoneme>')[0] + '</phoneme>';
                 tags.push(ssml);
             });
