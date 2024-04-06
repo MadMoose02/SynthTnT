@@ -1,4 +1,4 @@
-import { toIPA } from 'arpabet-and-ipa-convertor-t';
+import { toIPA } from 'arpabet-and-ipa-convertor-ts';
 let DTTECEndpoint = `https://dttec-api.onrender.com/get-pronunciation`;
 let defaultXML = `
 <?xml version="1.0"?>
