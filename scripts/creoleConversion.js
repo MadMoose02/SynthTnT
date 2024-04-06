@@ -1,3 +1,4 @@
+import { toIPA } from 'arpabet-and-ipa-convertor-t';
 const ipa2SSML = require('@theresnotime/ipa-to-ssml');
 const DTTEC    = require('./pronunciation.js');
 
@@ -11,11 +12,12 @@ function extractCreole(text) {
 
     for (let i = 0; i < words.length; i++) {
 
-        // Check if the word is in the DTTEC HashMap and store the IPA
-        let ipa = DTTEC.lookup(words[i]);
+        // Check if the word is in the DTTEC HashMap and store the Arpabet
+        let arpabet = DTTEC.lookup(words[i]);
 
-        // If the word is in DTTEC, add to the map. Otherwise, skip
-        if (ipa == undefined) continue;
+        // If the word is in DTTEC, convert to IPA and add to the map. Otherwise, skip
+        if (arpabet == undefined) continue;
+        ipa = toIPA(arpabet);   // Convert the ARPAbet to IPA
         creoleWords.set(words[i], ipa);
     }
     return creoleWords;
