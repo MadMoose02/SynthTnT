@@ -305,6 +305,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"arpabet-and-ipa-convertor-ts@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "arpabet-and-ipa-convertor-ts@npm:1.0.3"
+  checksum: 10c0/6c4ca4fb1e75ebb741b5563f678f43bc0c0cb65904e07e78417d75a691241118225ebffb4d69a607a56d7077d6a1b26f835df6aa3982c6be433260f937e64791
+  languageName: node
+  linkType: hard
+
 "array-flatten@npm:1.1.1":
   version: 1.1.1
   resolution: "array-flatten@npm:1.1.1"
@@ -2238,6 +2245,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "synthtnt@workspace:."
   dependencies:
+    arpabet-and-ipa-convertor-ts: "npm:^1.0.3"
     dot-env: "npm:^0.0.1"
     dotenv: "npm:^16.4.5"
     express: "npm:^4.19.2"

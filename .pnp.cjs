@@ -26,6 +26,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["arpabet-and-ipa-convertor-ts", "npm:1.0.3"],\
           ["dot-env", "npm:0.0.1"],\
           ["dotenv", "npm:16.4.5"],\
           ["express", "npm:4.19.2"],\
@@ -382,6 +383,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/ansi-styles-npm-6.2.1-d43647018c-10c0.zip/node_modules/ansi-styles/",\
         "packageDependencies": [\
           ["ansi-styles", "npm:6.2.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["arpabet-and-ipa-convertor-ts", [\
+      ["npm:1.0.3", {\
+        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/arpabet-and-ipa-convertor-ts-npm-1.0.3-aabe2957c8-10c0.zip/node_modules/arpabet-and-ipa-convertor-ts/",\
+        "packageDependencies": [\
+          ["arpabet-and-ipa-convertor-ts", "npm:1.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2621,6 +2631,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["synthtnt", "workspace:."],\
+          ["arpabet-and-ipa-convertor-ts", "npm:1.0.3"],\
           ["dot-env", "npm:0.0.1"],\
           ["dotenv", "npm:16.4.5"],\
           ["express", "npm:4.19.2"],\
