@@ -65,12 +65,90 @@
             <br><br>
             Thank you in advance for your contribution!
         </p>
-        <a href="/testing"><button id="eval-btn"><b>Go to Evaluation</b></button></a>
+        <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Show Terms and Conditions</button>
+
+        <div id="termsModal" class="modal overlay">
+            <div class="modal-content">
+                <h2>Terms and Conditions</h2>
+                <p>Thank you for participating in our questionnaire for the voice synthesis model aimed at capturing 
+                    pronunciation of Trinidadian and Tobagonian English Creole words. 
+                    Before proceeding, please carefully read and agree to the following terms and conditions 
+                    regarding data collection:
+                </p>
+                <ol>
+                    <li><b>Data Collection and Usage:</b><br>
+                        By agreeing to this form, you consent to the collection of data about you as you interact with all 
+                        components of the web application. This includes but is not limited to your interactions with the 
+                        questionnaire and any other features present on the website.
+                    </li>
+                    <br>
+                    <li><b>Demographic Data: </b><br>
+                        We require demographic data about you to better understand your knowledge of 
+                        Trinidadian accents. While providing this information is optional, it greatly aids us in improving 
+                        our application and enhancing user experience.
+                    </li>
+                    <br>
+                    <li><b>Rationale for Data Collection:</b>
+                        <ul>
+                            <li><b>Place of Residence: </b><br>
+                                Your place of residence helps us determine the uniqueness and validity 
+                                of pronunciation based on your background. This allows us to tailor the voice synthesis model 
+                                to better suit the diversity of Trinidadian and Tobagonian English Creole speakers.
+                            </li>
+                            <br>
+                            <li><b>Level of Education: </b><br>
+                                Understanding your level of education assists us in gauging the range of 
+                                knowledge you may have regarding the existence and usage of certain words. This insight aids in 
+                                refining the accuracy and effectiveness of the voice synthesis model.
+                            </li>
+                            <br>
+                            <li><b>Age Range: </b><br>
+                                Collecting data on your age range helps us understand the breadth of your knowledge 
+                                and the likelihood of exposure to certain words in Trinidadian and Tobagonian English Creole. 
+                                This information enables us to cater to a wide range of user demographics effectively.
+                            </li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li><b>Confidentiality: </b><br>
+                        We are committed to protecting your privacy and confidentiality. All data collected will 
+                        be used solely for research and development purposes related to improving our voice synthesis model. Your 
+                        personal information will not be shared with any third parties without your explicit consent.
+                    </li>
+                    <br>
+                    <li><b>Voluntary Participation: </b><br>
+                        Participation in this questionnaire is entirely voluntary. You may choose not to 
+                        provide certain demographic information or discontinue participation at any time without penalty.
+                    </li>
+                </ol>
+                <br>
+                <hr>
+                <p>By clicking the "Proceed" button below, you acknowledge that you have read and agree to the terms and conditions 
+                    outlined above. Your participation in this questionnaire is greatly appreciated and will contribute to the 
+                    enhancement of our voice synthesis model.
+                </p>
+                <br>
+                <button id="backToHome">Back</button>
+                <button id="proceedToForm">Proceed</button>
+            </div>
+        </div>
+
+        <div id="formModal" class="modal overlay">
+            <div class="modal-content">
+                <h2>Demographic Data Collection</h2>
+                <form>
+                    <!-- Form content... -->
+                </form>
+                <button id="backToTerms">Back</button>
+                <a href="/testing"><button id="proceedToPage">Next</button></a>
+                
+            </div>
+        </div>
         <br><br>
     </div>
 
     <div id="scroll">
-        <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button>
+        <!-- <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button> -->
     </div>
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>
@@ -128,6 +206,33 @@
             toggleAudio('');
             updateSeekBar('');
         });
+
+        document.getElementById('proceedToForm').addEventListener('click', function() {
+            toggleTermsConditionsModal(false);
+            toggleFormModal(true);
+        });
+
+        document.getElementById('backToTerms').addEventListener('click', function() {
+            toggleFormModal(false);
+            toggleTermsConditionsModal(true);
+        });
+
+        document.getElementById('backToHome').addEventListener('click', function() {
+            toggleFormModal(false);
+            toggleTermsConditionsModal(false);
+        });
+
+        document.getElementById('proceedToPage').addEventListener('click', function() {
+            window.location.href = '/testing';
+        });
+
+        function toggleTermsConditionsModal(state) {
+            document.getElementById('termsModal').style.display = state ? 'block' : 'none';
+        }
+
+        function toggleFormModal(state) {
+            document.getElementById('formModal').style.display = state ? 'block' : 'none';
+        }
 
         function getData() {
             var textData = document.getElementById("textarea").value;
