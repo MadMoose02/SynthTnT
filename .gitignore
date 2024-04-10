@@ -1,5 +1,11 @@
 # Exclude node_modules folder
 node_modules/*
 
+# Exclude yarn.lock
+yarn.lock
+
+# .env file (for local development)
+.env
+
 # MacOS files
 .DS_Store
