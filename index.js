@@ -1,31 +1,72 @@
 import fs from 'fs';
-import path from 'path';
+import multer from 'multer';
 import dotenv from 'dotenv';
 import express from 'express';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { google } from 'googleapis';
+import { PassThrough } from 'stream';
 import { convert } from './scripts/text2SSML.js';
 import { setAPIKey, getTTSVoices, setTTSVoice, synthesiseAudio } from './scripts/watson-web.js';
 
 /* Check if .env file exists */
 if (!fs.existsSync('.env')) {
     console.error('ERROR: .env file not found. Core functionality may not work as expected.');
-} else {
-    console.log(`Loaded .env file`);
 }
 
 /* Load env variables */
 dotenv.config();
 
 const app = express();
+const upload = multer();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const baseDir = __dirname + '/routes/';
 const ttsVoice = process.env.IBM_TTS_VOICE || 'en-US_Allison';
+const jwtClient = new google.auth.JWT(
+    "synthtnt-evaluation@synthtnt.iam.gserviceaccount.com",
+    null,
+    process.env.PRIVATE_KEY,
+    ['https://www.googleapis.com/auth/drive'],
+    null
+);
+jwtClient.authorize(function (err, tokens) {
+    if (err) { console.log(err); return; } 
+    else { console.log(`[${getDateTime()}] Successfully connected to Google Drive`); }
+});
+
 
 /* Middlewares */
 app.use(express.json());
 app.use(express.static(__dirname));
+app.use(express.urlencoded({ extended: true }));
+
+
+/**
+ * This code defines an asynchronous function uploadFile that uploads a file to Google Drive. 
+ * It reads the file content from fileObject.buffer, sets the file metadata and then sends 
+ * the file to Google Drive using the Google Drive API.
+ * 
+ * @param {*} fileObject The form data of the uploaded file 
+ */
+const uploadFile = async (fileObject) => {
+    // Upload file to Google Drive
+    const bufferStream = new PassThrough();
+    bufferStream.end(fileObject.buffer);
+    await google.drive({ version: 'v3', auth: jwtClient }).files.create({
+        token: process.env.GOOGLE_TOKEN,
+        media: {
+            mimeType: fileObject.mimeType,
+            body: bufferStream,
+        },
+        requestBody: {
+            name: fileObject.originalname,
+            parents: [process.env.GDRIVE_FOLDER_ID],
+        },
+        fields: 'id,name',
+    });
+    console.log(`[${getDateTime()}] Uploaded file to SynthTnT evaluation storage`);
+};
 
 /**
  * Get the date and time of the request in the format YYYY-MM-DD HH:MM:SS
@@ -40,19 +81,7 @@ function getDateTime() {
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds() + 1;
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-}
-
-/**
- * Gets the trascription from file for the specified audio file
- * 
- * @param   {string} filename The name of the audio file
- * @returns {string} The transcript string for the specified audio file
- */
-function getTranscript(filename) {
-    const filePath = path.join(__dirname, 'audio-tests', 'transcripts.json');
-    const transcript = JSON.parse(fs.readFileSync(filePath, 'utf8'))[filename];
-    return transcript;
+    return `${year}-${month}-${day} ${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
 /* Health check */
@@ -67,10 +96,10 @@ app.get('/', function (req, res) {
     res.status(200).sendFile(baseDir + 'index.html');
 });
 
-/* Serve testing page */
-app.get('/testing', function (req, res) {
+/* Serve evaluation page */
+app.get('/evaluate', function (req, res) {
     console.log(`[${getDateTime()}] Serving testing page`)
-    res.status(200).sendFile(baseDir + 'testing.html');
+    res.status(200).sendFile(baseDir + 'evaluation.html');
 });
 
 /* Fetch IBM token from environment variable */
@@ -120,6 +149,35 @@ app.post('/synthesize', async function (req, res) {
         .catch((err) => console.log(`[${getDateTime()}] Error: ${err}`));
 
     res.status(status === 200 ? 200 : 500).send(status === 200 ? 'Success' : 'Error');
+});
+
+
+/* Upload form data to Google Drive */
+app.post('/upload', upload.any(), async (req, res) => {
+    console.log(`[${getDateTime()}] Received evaluation data`);
+    try {
+        const { body, files } = req;
+
+        // Save form data as JSON then upload to Google Drive
+        const formData  = JSON.stringify(body);
+        const now       = new Date();
+        const timestamp = `${now.getDate()}-${now.getMonth()}-${now.getFullYear()}-${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
+        const filename  = `eval-${timestamp}.json`;
+        console.log(`[${getDateTime()}] Saving data to: ${filename}`);
+
+        // Upload JSON to Google Drive
+        await uploadFile({ buffer: formData, originalname: filename, mimeType: 'application/json' });
+        res.status(200).send('Evaluation data successfully submitted');
+
+    } catch (err) {
+        if (err.response) {
+            console.log(`[${getDateTime()}] ${err.response.data.error.message}`);
+            res.status(500).send(err.response.data.error.message);
+        } else {
+            console.log(`[${getDateTime()}] ${err}`);
+            res.status(500).send(`${err}`);
+        }
+    }
 });
 
 
