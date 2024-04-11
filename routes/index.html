@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
+<body style="overflow: hidden;">
     <div id="welcome" class="playarea">
         <h1 style="margin-bottom: 0; font-size: 60px;"><span class="ombre-text">SynthTnT</span></h1>
         <p>Interact with the first Trinidadian English/Creole Text to Speech Application</p>
@@ -60,12 +60,13 @@
             We invite YOU to become a pioneer in testing our product.
             <br><br>
             Simply listen to sample audios and provide feedback on pronunciation accuracy. 
-            If you're ready to participate, click the button below to access a brief questionnaire. 
+            If you're ready to participate, click the button below to access the terms and conditions before
+            proceeding to a brief questionnaire. 
             Your insights are highly valued.
             <br><br>
             Thank you in advance for your contribution!
         </p>
-        <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Show Terms and Conditions</button>
+        <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Terms and Conditions</button>
 
         <div id="termsModal" class="modal overlay">
             <div class="modal-content">
@@ -136,9 +137,54 @@
         <div id="formModal" class="modal overlay">
             <div class="modal-content">
                 <h2>Demographic Data Collection</h2>
-                <form>
-                    <!-- Form content... -->
+                <p>This part of the questionnaire is optional. Please provide your demographic information 
+                    to help us improve our application and enhance user experience. 
+                    You can skip this section by clicking the "Next" button.
+                </p>
+                <hr>
+                <br>
+                <form id="demographic-form">
+                    <label for="areaOfResidence">Area of Residence:</label>
+                    <br>
+                    <select id="areaOfResidence" name="areaOfResidence">
+                        <option value="Chaguanas">Chaguanas</option>
+                        <option value="San Fernando">San Fernando</option>
+                        <option value="Port of Spain">Port of Spain</option>
+                        <option value="Arima">Arima</option>
+                        <option value="San Juan">San Juan</option>
+                        <option value="Diego Martin">Diego Martin</option>
+                        <option value="Couva">Couva</option>
+                        <option value="Point Fortin">Point Fortin</option>
+                        <option value="Princes Town">Princes Town</option>
+                        <option value="Tunapuna">Tunapuna</option>
+                    </select>
+                    <br><br>
+                    <label>Level of Education:</label><br>
+                    <input type="checkbox" id="primary" name="educationLevel" value="Primary">
+                    <label for="primary">Primary</label><br>
+                    <input type="checkbox" id="secondary" name="educationLevel" value="Secondary">
+                    <label for="secondary">Secondary</label><br>
+                    <input type="checkbox" id="diploma" name="educationLevel" value="Diploma">
+                    <label for="diploma">Diploma</label><br>
+                    <input type="checkbox" id="undergraduate" name="educationLevel" value="Undergraduate">
+                    <label for="undergraduate">Undergraduate</label><br>
+                    <input type="checkbox" id="post-graduate" name="educationLevel" value="Post-Graduate">
+                    <label for="post-graduate">Post-Graduate</label><br>
+                    <br>
+                    <label for="ageRange">Age Range:</label><br>
+                    <select id="ageRange" name="ageRange">
+                        <option value="Under 18">Under 18</option>
+                        <option value="18-24">18-24</option>
+                        <option value="25-34">25-34</option>
+                        <option value="35-44">35-44</option>
+                        <option value="45-54">45-54</option>
+                        <option value="55-64">55-64</option>
+                        <option value="65+">65+</option>
+                    </select>
+                    <br><br>
                 </form>
+                <hr>
+                <br>
                 <button id="backToTerms">Back</button>
                 <a href="/testing"><button id="proceedToPage">Next</button></a>
                 

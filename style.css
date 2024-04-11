@@ -19,7 +19,7 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
+    
 }
 
 
@@ -231,6 +231,7 @@ button:hover{
 }
 
 /* Terms and Conditions Modal */
+#formModal p,
 #termsModal p{
     font-weight: bold;
     color: #9e9e9e;
@@ -242,11 +243,31 @@ button:hover{
     text-align: left;
 }
 
-#termsModal hr{
+hr{
     border: 1px solid #3b3b3b;
     opacity: 50%;
 }
 
+form {
+    color: #9e9e9e;
+    text-align: left;
+}
+
+#demographic-form select {
+    background-color: #312f2f;
+    color: #9e9e9e;
+    border: 1px solid #af0c0c;
+    padding: 8px;
+    width: 50%;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+    
+#demographic-form select option {
+    background-color: #312f2f;
+    color: #9e9e9e;
+}
 
 /* Testing Page */
 #start-up {
