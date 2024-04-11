@@ -9,3 +9,7 @@ yarn.lock
 
 # MacOS files
 .DS_Store
+
+# Express.js files
+.pnp.cjs
+.yarn
