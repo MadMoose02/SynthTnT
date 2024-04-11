@@ -75,7 +75,7 @@ app.get('/testing', function (req, res) {
 
 /* Fetch IBM token from environment variable */
 app.get('/authorise', function (req, res) {
-    let status = setAPIKey(process.env.IBM_API_TOKEN);
+    let status = setAPIKey(process.env.IBM_TTS_TOKEN);
     console.log(`[${getDateTime()}] Set IBM Cloud API token: ${status ? 'Success' : 'Failed'}`);
     status = setTTSVoice(ttsVoice);
     console.log(`[${getDateTime()}] Set IBM Watson TTS voice: ${status ? 'Success' : 'Failed'}`);
