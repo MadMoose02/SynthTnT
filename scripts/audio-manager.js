@@ -1,21 +1,5 @@
 const playerIds = ['dttec', 'se'];
 
-// Function to change audio file
-function changeAudio(isTestAudio = false) {
-    let dttecAudioPlayer = document.getElementById('dttec-audio-player');
-    let seAudioPlayer    = document.getElementById('se-audio-player');
-
-    // Set the selected audio file as the source for the audio player
-    if (isTestAudio) {
-        let audioSelect      = document.getElementById('audio-select');
-        dttecAudioPlayer.src = "./audio-tests/dttec/dttec-" + audioSelect.value;
-        seAudioPlayer.src    = "./audio-tests/se/se-" + audioSelect.value;
-        return;
-    }
-    dttecAudioPlayer.src =  "./audio-gen/watson-tts-ssml.wav";
-    seAudioPlayer.src    =  "./audio-gen/watson-tts.wav";
-}
-
 // Function to handle play, pause, and stop actions
 function toggleAudio(playerId) {
     if (playerId === '' || playerId === null) {

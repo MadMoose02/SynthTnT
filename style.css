@@ -106,7 +106,6 @@ body {
 }
 
 /* Text Input Section */
-#display-area,
 #textarea {
     width: 60%;
     height: 10vh;
@@ -282,17 +281,11 @@ form {
 }
 
 #instructions{
-    width: 60%;
-    height: 15%;
+    width: 70%;
     text-align: left;
     margin-left: auto;
     margin-right: auto;
     
-}
-
-#display-area{
-    background: none repeat scroll 0 0 #141414; 
-    margin-bottom: 2%;
 }
 
 .audio-dropbox {
@@ -336,12 +329,13 @@ iframe{
     margin-bottom: 50px;
     text-align: center;
     font-size: 20px;
-    margin-top: 10vh;
-    border: #af0c0c 2px solid;
+    margin-top: 15vh;
     border-radius: 5px;
-    background-color: #0f0f0f;
 }
 
+#next-audio {
+    float: right;
+}
 
 
 /* Templated*/
@@ -444,3 +438,4 @@ img:hover,
     background-color: #000000;
     border-radius: 3pt;
 }
+
