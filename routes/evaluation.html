@@ -14,9 +14,9 @@
         <div class="modal-content">
             <h2>Demographic Data Collection</h2>
             <p>This part of the questionnaire is optional. Please provide your demographic information 
-                to help us improve our application and enhance user experience. 
-                You can skip this section by clicking the "Next" button.
+                to help us improve our application and enhance user experience.
             </p>
+            <p><b>Note:</b> You can opt out of this by clicking the "Next" button</p>
             <hr>
             <br>
             <form id="demographic-form">
@@ -82,6 +82,13 @@
                 <li>Click the "Next" button to proceed to the next audio sample</li>
             </ol>
         </div>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <div>
+            <h2 style="margin-bottom: 0;"><span id="audio-title" class="ombre-text"></span></h2>
+        </div>
         <div id="player" class="player">
             <div class="column">
                 <div class="playarea">
@@ -119,23 +126,14 @@
         <div id="questionnaire">
             <form id="audio-eval">
                 <div class="question">
-                    <label for="q1">1. Rate the clarity of the pronunciations</label><br>
+                    <label for="q1">1. What word did you hear?</label><br>
                     <br>
-                    <input type="radio" id="q1-1" name="q1" value="1">
-                    <label for="q1-1">1</label>
-                    <input type="radio" id="q1-2" name="q1" value="2">
-                    <label for="q1-2">2</label>
-                    <input type="radio" id="q1-3" name="q1" value="3">
-                    <label for="q1-3">3</label>
-                    <input type="radio" id="q1-4" name="q1" value="4">
-                    <label for="q1-4">4</label>
-                    <input type="radio" id="q1-5" name="q1" value="5">
-                    <label for="q1-5">5</label>
+                    <input type="text" id="q1" name="q1" placeholder="Type your response" required>
                 </div><br>
                 <div class="question">
-                    <label for="q2">2. Rate the naturalness of the pronunciations</label><br>
+                    <label for="q2">2. Rate the clarity of the pronunciation</label><br>
                     <br>
-                    <input type="radio" id="q2-1" name="q2" value="1">
+                    <input type="radio" id="q2-1" name="q2" value="1" checked>
                     <label for="q2-1">1</label>
                     <input type="radio" id="q2-2" name="q2" value="2">
                     <label for="q2-2">2</label>
@@ -147,9 +145,9 @@
                     <label for="q2-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q3">3. How accurately do you believe the voice synthesis model pronounced the words?</label><br>
+                    <label for="q3">3. Rate the naturalness of the pronunciation</label><br>
                     <br>
-                    <input type="radio" id="q3-1" name="q3" value="1">
+                    <input type="radio" id="q3-1" name="q3" value="1" checked>
                     <label for="q3-1">1</label>
                     <input type="radio" id="q3-2" name="q3" value="2">
                     <label for="q3-2">2</label>
@@ -161,9 +159,9 @@
                     <label for="q3-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q4">4. To what extent did the pronunciations sound contextually appropriate?</label><br>
+                    <label for="q4">4. How accurately do you believe the voice synthesis model pronounced the word?</label><br>
                     <br>
-                    <input type="radio" id="q4-1" name="q4" value="1">
+                    <input type="radio" id="q4-1" name="q4" value="1" checked>
                     <label for="q4-1">1</label>
                     <input type="radio" id="q4-2" name="q4" value="2">
                     <label for="q4-2">2</label>
@@ -175,9 +173,9 @@
                     <label for="q4-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q5">5. Overall, how satisfied are you with the accuracy of the pronunciations?</label><br>
+                    <label for="q5">5. To what extent did the pronunciation sound contextually appropriate?</label><br>
                     <br>
-                    <input type="radio" id="q5-1" name="q5" value="1">
+                    <input type="radio" id="q5-1" name="q5" value="1" checked>
                     <label for="q5-1">1</label>
                     <input type="radio" id="q5-2" name="q5" value="2">
                     <label for="q5-2">2</label>
@@ -187,11 +185,26 @@
                     <label for="q5-4">4</label>
                     <input type="radio" id="q5-5" name="q5" value="5">
                     <label for="q5-5">5</label>
+                </div><br>
+                <div class="question">
+                    <label for="q6">6. Overall, how satisfied are you with the accuracy of the pronunciation?</label><br>
+                    <br>
+                    <input type="radio" id="q6-1" name="q6" value="1" checked>
+                    <label for="q6-1">1</label>
+                    <input type="radio" id="q6-2" name="q6" value="2">
+                    <label for="q6-2">2</label>
+                    <input type="radio" id="q6-3" name="q6" value="3">
+                    <label for="q6-3">3</label>
+                    <input type="radio" id="q6-4" name="q6" value="4">
+                    <label for="q6-4">4</label>
+                    <input type="radio" id="q6-5" name="q6" value="5">
+                    <label for="q6-5">5</label>
                 </div>
                 <br>
                 <hr><br>
                 <button id="next-audio">Next</button>
-            </form>            
+            </form>
+            <a href="/"><button id="home-btn" style="display: none;">Back to Homepage</button></a>
         </div>
     </div>
 
@@ -201,13 +214,21 @@
 
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>
-        var userData = {
-            demographicData: {},
-            evaluations: []
-        };
-        index = 1;
+        var userData = { demographicData: {}, evaluations: {} };
+        let numQuestions = 6;
+        let index = 1;
+        let maxIndex = 10;
+        for (let i = 1; i <= maxIndex; i++) {
+            let entry = "sample " + i;
+            userData.evaluations[entry] = [];
+        }
 
-        var scrollToTop = document.getElementById('scroll');
+        var scrollToTop   = document.getElementById('scroll');
+        var homeBtn       = document.getElementById('home-btn');
+        var audioTitle    = document.getElementById('audio-title');
+        var evalFormModal = document.getElementById('eval-form-modal');
+        var evalForm      = document.getElementById('audio-eval');
+        var nextAudio     = document.getElementById('next-audio');
 
         // Scroll to top function
         scrollToTop.addEventListener("click", function() {
@@ -225,50 +246,59 @@
         };
 
         function toggleEvalFormModal(state) {
-            document.getElementById('eval-form-modal').style.display = state ? 'block' : 'none';
+            evalFormModal.style.display = state ? 'block' : 'none';
+            document.body.style.overflow = state ? 'hidden' : 'auto';
+        }
+
+        function updateTitle() {
+            audioTitle.innerHTML = `Audio Sample ${index} of 10`;
         }
 
         document.getElementById('proceedToPage').addEventListener('click', function() {
             toggleEvalFormModal(false);
+            updateTitle();
         });
 
-        // Reset audio players and seekbars
         document.addEventListener("DOMContentLoaded", function() {
             toggleAudio('');
             updateSeekBar('');
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-            // Load the first pair of audio files
             loadAudioPair(index);
 
             // Handle the next button click
-            document.getElementById('next-audio').addEventListener('click', function() {
+            nextAudio.addEventListener('click', function() {
                 event.preventDefault();
+
                 // Extract audio evaluation data
-                var evaluationData = {};
-                var form = document.getElementById('audio-eval');
-                for (var i = 1; i <= 5; i++) {
-                    var radioButtonName = 'q' + i;
-                    var selectedValue = form.elements[radioButtonName].value;
-                    evaluationData[radioButtonName] = selectedValue;
+                let sampleNum = `sample ${index}`;
+                for (var i = 0; i < numQuestions; i++) {
+                    if (i == 0) { 
+                        userData.evaluations[sampleNum].push(document.getElementById(`q${i + 1}`).value);
+                        continue;
+                    }
+                    var radioButtonName = `q${i + 1}`;
+                    var selectedValue = evalForm.elements[radioButtonName].value;
+                    userData.evaluations[sampleNum].push(selectedValue);
                 }
-
-                // Push audio evaluation data to userData object
-                userData.evaluations.push(evaluationData);
-
-                index++;
+                console.log(userData.evaluations[`sample ${index}`]);
+                index = (index + 1 > maxIndex) ? maxIndex : index + 1;
 
                 // If the current index is greater than 10, show the thank you message 
                 if (index > 3) {
-                    console.log(userData.demographicData);
-                    console.log(userData.evaluations);
-                    showThankYouMessage();
+                    evalForm.innerHTML = '<p style="text-align: center">Thank you for your time and participation!</p><br>';
+                    homeBtn.style.display = 'unset';
+                    fetch('/upload', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ userData })
+                    })
                     return;
                 }
 
-                // Load the next pair of audio files
                 loadAudioPair(index);
+                updateTitle();
+                window.scrollTo({ top: audioTitle.offsetTop, behavior: 'smooth' });
             });
         });
 
@@ -299,13 +329,7 @@
             document.getElementById('dttec-audio-player').pause();
 
             // Reset the evaluation form
-            document.getElementById('audio-eval').reset();
-        }
-
-        function showThankYouMessage() {
-            // Replace the form with a thank you message
-            let form = document.getElementById('audio-eval');
-            form.innerHTML = '<p style="text-align: center">Thank you for your time and participation!</p>';
+            evalForm.reset();
         }
 
     </script>
