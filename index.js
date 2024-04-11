@@ -7,6 +7,13 @@ import { fileURLToPath } from 'url';
 import { convert } from './scripts/text2SSML.js';
 import { setAPIKey, getTTSVoices, setTTSVoice, synthesiseAudio } from './scripts/watson-web.js';
 
+/* Check if .env file exists */
+if (!fs.existsSync('.env')) {
+    console.error('ERROR: .env file not found. Core functionality may not work as expected.');
+} else {
+    console.log(`Loaded .env file`);
+}
+
 /* Load env variables */
 dotenv.config();
 
