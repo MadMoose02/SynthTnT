@@ -10,7 +10,7 @@
     
 </head>
 <body>
-    <div id="formModal" class="modal overlay">
+    <div id="eval-form-modal" class="modal overlay">
         <div class="modal-content">
             <h2>Demographic Data Collection</h2>
             <p>This part of the questionnaire is optional. Please provide your demographic information 
@@ -23,6 +23,7 @@
                 <label for="areaOfResidence">Area of Residence:</label>
                 <br>
                 <select id="areaOfResidence" name="areaOfResidence">
+                    <option value="" disabled selected>--Select--</option>
                     <option value="Chaguanas">Chaguanas</option>
                     <option value="San Fernando">San Fernando</option>
                     <option value="Port of Spain">Port of Spain</option>
@@ -49,6 +50,7 @@
                 <br>
                 <label for="ageRange">Age Range:</label><br>
                 <select id="ageRange" name="ageRange">
+                    <option value="" disabled selected>--Select--</option>
                     <option value="Under 18">Under 18</option>
                     <option value="18-24">18-24</option>
                     <option value="25-34">25-34</option>
@@ -61,7 +63,7 @@
             </form>
             <hr>
             <br>
-            <button id="proceedToPage">Next</button>
+            <button id="proceedToPage" onclick="populateDemographicData()">Next</button>
             
         </div>
     </div>
@@ -70,7 +72,8 @@
     </div>
     <div id="start-up">
         <h1><span class="ombre-text">SynthTnT Pronunciation Evaluation</span></h1>
-        <p><b>Instructions:</b>
+        <p><b>Instructions:</b> <br>
+            <i><u>Note: Range of evaluation is from 1 to 5, where 1 is the lowest and 5 is the highest.</u></i>
         </p>
         <div id="instructions">
             <ol>
@@ -198,8 +201,14 @@
 
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>
+        var userData = {
+            demographicData: {},
+            evaluations: []
+        };
+        index = 1;
+
         var scrollToTop = document.getElementById('scroll');
-        
+
         // Scroll to top function
         scrollToTop.addEventListener("click", function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -212,16 +221,16 @@
         });
 
         window.onload = function() {
-            toggleFormModal(true);
+            toggleEvalFormModal(true);
         };
 
-        document.getElementById('proceedToPage').addEventListener('click', function() {
-            toggleFormModal(false);
-        });
-
-        function toggleFormModal(state) {
-            document.getElementById('formModal').style.display = state ? 'block' : 'none';
+        function toggleEvalFormModal(state) {
+            document.getElementById('eval-form-modal').style.display = state ? 'block' : 'none';
         }
+
+        document.getElementById('proceedToPage').addEventListener('click', function() {
+            toggleEvalFormModal(false);
+        });
 
         // Reset audio players and seekbars
         document.addEventListener("DOMContentLoaded", function() {
@@ -231,13 +240,50 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             // Load the first pair of audio files
-            loadAudioPair(1);
+            loadAudioPair(index);
 
             // Handle the next button click
-            // document.getElementById('next-audio').addEventListener('click', function() {
-                
-            // });
+            document.getElementById('next-audio').addEventListener('click', function() {
+                event.preventDefault();
+                // Extract audio evaluation data
+                var evaluationData = {};
+                var form = document.getElementById('audio-eval');
+                for (var i = 1; i <= 5; i++) {
+                    var radioButtonName = 'q' + i;
+                    var selectedValue = form.elements[radioButtonName].value;
+                    evaluationData[radioButtonName] = selectedValue;
+                }
+
+                // Push audio evaluation data to userData object
+                userData.evaluations.push(evaluationData);
+
+                index++;
+
+                // If the current index is greater than 10, show the thank you message 
+                if (index > 3) {
+                    console.log(userData.demographicData);
+                    console.log(userData.evaluations);
+                    showThankYouMessage();
+                    return;
+                }
+
+                // Load the next pair of audio files
+                loadAudioPair(index);
+            });
         });
+
+        function extractDemographicData() {
+            var formData = new FormData(document.getElementById('demographic-form'));
+            var demographicData = {};
+            for (var pair of formData.entries()) {
+                demographicData[pair[0]] = pair[1];
+            }
+            return demographicData;
+        }
+
+        function populateDemographicData() {
+            userData.demographicData = extractDemographicData();
+        }
 
         function loadAudioPair(index) {
             // Construct the file names for the current pair
@@ -259,7 +305,7 @@
         function showThankYouMessage() {
             // Replace the form with a thank you message
             let form = document.getElementById('audio-eval');
-            form.innerHTML = '<p>Thank you for your time and participation!</p>';
+            form.innerHTML = '<p style="text-align: center">Thank you for your time and participation!</p>';
         }
 
     </script>
