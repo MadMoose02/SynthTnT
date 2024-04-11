@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynthTnT</title>
+    <link rel="icon" type="image/png" href="/images/favicon/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body style="overflow: hidden;">
+    <div id="welcome" class="playarea">
+        <h1 style="margin-bottom: 0; font-size: 60px;"><span class="ombre-text">SynthTnT</span></h1>
+        <p>Interact with a Trinidadian Text to Speech Application</p>
+        <br><br>
+        <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
+        <br>
+        <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
+
+        <div id="player" class="player fade-out">
+            <div class="column">
+                <div class="playarea">
+                    <div class="buttons-cols">
+                        <div id="se-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
+                        <div id="se-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
+                        <div id="se-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                    </div>
+                    <div class="seekbar">
+                        <input id="se-seekbar" type="range" value="0" step="0.1">
+                        <audio id="se-audio-player" src=""></audio>
+                    </div>
+                    <div class="time"><span id="se-time" class="ombre-text">0:00</span></div>
+                    <h2><span class="ombre-text">Standard English</span></h2>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="playarea">
+                    <div class="buttons-cols">
+                        <div id="dttec-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
+                        <div id="dttec-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
+                        <div id="dttec-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                    </div>
+                    <div class="seekbar">
+                        <input id="dttec-seekbar" type="range" value="0" step="0.1">
+                        <audio id="dttec-audio-player" src=""></audio>
+                    </div>
+                    <div class="time"><span id="dttec-time" class="ombre-text">0:00</span></div>
+                    <h2><span class="ombre-text">DTTEC Influence</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="hint-down"><i class="material-icons">keyboard_arrow_down</i></div>
+    <div id="hint-up"><i class="material-icons">keyboard_arrow_up</i></div>
+    <div id="tester-prompt" style="display: none;">
+        <h1><span class="ombre-text">Become a Beta Tester!</span></h1>
+        <p>Join our team as a beta tester and be among the first to experience our latest innovations. 
+            We invite YOU to become a pioneer in testing our product.
+            <br><br>
+            Simply listen to sample audios and provide feedback on pronunciation accuracy. 
+            If you're ready to participate, click the button below to access the terms and conditions before
+            proceeding to a brief questionnaire. 
+            Your insights are highly valued.
+            <br><br>
+            Thank you in advance for your contribution!
+        </p>
+        <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Terms and Conditions</button>
+
+        <div id="termsModal" class="modal overlay">
+            <div class="modal-content">
+                <h2>Terms and Conditions</h2>
+                <p>Thank you for participating in our questionnaire for the voice synthesis model aimed at capturing 
+                    pronunciation of Trinidadian and Tobagonian English Creole words. 
+                    Before proceeding, please carefully read and agree to the following terms and conditions 
+                    regarding data collection:
+                </p>
+                <ol>
+                    <li><b>Data Collection and Usage:</b><br>
+                        By agreeing to this form, you consent to the collection of data about you as you interact with all 
+                        components of the web application. This includes but is not limited to your interactions with the 
+                        questionnaire and any other features present on the website.
+                    </li>
+                    <br>
+                    <li><b>Demographic Data: </b><br>
+                        We require demographic data about you to better understand your knowledge of 
+                        Trinidadian accents. While providing this information is optional, it greatly aids us in improving 
+                        our application and enhancing user experience.
+                    </li>
+                    <br>
+                    <li><b>Rationale for Data Collection:</b>
+                        <ul>
+                            <li><b>Place of Residence: </b><br>
+                                Your place of residence helps us determine the uniqueness and validity 
+                                of pronunciation based on your background. This allows us to tailor the voice synthesis model 
+                                to better suit the diversity of Trinidadian and Tobagonian English Creole speakers.
+                            </li>
+                            <br>
+                            <li><b>Level of Education: </b><br>
+                                Understanding your level of education assists us in gauging the range of 
+                                knowledge you may have regarding the existence and usage of certain words. This insight aids in 
+                                refining the accuracy and effectiveness of the voice synthesis model.
+                            </li>
+                            <br>
+                            <li><b>Age Range: </b><br>
+                                Collecting data on your age range helps us understand the breadth of your knowledge 
+                                and the likelihood of exposure to certain words in Trinidadian and Tobagonian English Creole. 
+                                This information enables us to cater to a wide range of user demographics effectively.
+                            </li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li><b>Confidentiality: </b><br>
+                        We are committed to protecting your privacy and confidentiality. All data collected will 
+                        be used solely for research and development purposes related to improving our voice synthesis model. Your 
+                        personal information will not be shared with any third parties without your explicit consent.
+                    </li>
+                    <br>
+                    <li><b>Voluntary Participation: </b><br>
+                        Participation in this questionnaire is entirely voluntary. You may choose not to 
+                        provide certain demographic information or discontinue participation at any time without penalty.
+                    </li>
+                </ol>
+                <br>
+                <hr>
+                <p>By clicking the "Proceed" button below, you acknowledge that you have read and agree to the terms and conditions 
+                    outlined above. Your participation in this questionnaire is greatly appreciated and will contribute to the 
+                    enhancement of our voice synthesis model.
+                </p>
+                <br>
+                <button id="backToHome">Back</button>
+                <a href="/evaluate"><button id="proceed-to-testing">Proceed</button></a>
+            </div>
+        </div>
+
+        <br><br>
+    </div>
+
+    <div id="scroll">
+        <!-- <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button> -->
+    </div>
+    <script type="text/javascript" src="/scripts/audio-manager.js"></script>
+    <script>
+        var player = null;
+        var scrollToTop = document.getElementById('scroll');
+        var testPromptShow = document.getElementById('hint-down');
+        var testPromptHide = document.getElementById('hint-up');
+        var testerPrompt = document.getElementById('tester-prompt');
+
+        // Scroll to top function
+        scrollToTop.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // If the scroll position is greater than 0, show the scroll to top arrow
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) { scrollToTop.style.display = 'block'; } 
+            else { scrollToTop.style.display = 'none'; }
+        });
+
+        // If the test prompt hint button is clicked, show the tester prompt
+        testPromptShow.addEventListener("click", function() {
+            testerPrompt.classList.remove('fade-out');
+            testerPrompt.classList.add('fade-in');
+            if (testerPrompt.style.display === 'none') {
+                testerPrompt.style.display = 'block';
+                testPromptShow.style.display = 'none';
+                testPromptHide.style.display = 'block';
+                window.scrollTo({ top: testerPrompt.offsetTop, behavior: 'smooth' });
+            }
+        });
+
+        // If the hide tester prompt button is clicked, hide the tester prompt
+        testPromptHide.addEventListener("click", function() {
+            testerPrompt.classList.add('fade-out');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            testPromptHide.style.display = 'none';
+
+            setTimeout(function() {
+                testPromptShow.style.display = 'none';
+                testerPrompt.classList.remove('fade-out');
+                testerPrompt.classList.remove('fade-in');
+                testPromptShow.style.display = 'block';
+                testerPrompt.style.display = 'none';
+            }, 600);
+        });
+
+        document.addEventListener("DOMContentLoaded", async function() {
+            
+            // authorise with IBM Cloud and print voices to console
+            fetch('/authorise').catch(function(error) { console.log(error); });
+            player = document.getElementById("player");
+            
+            // Reset audio players and seekbars
+            toggleAudio('');
+            updateSeekBar('');
+        });
+
+        document.getElementById('backToHome').addEventListener('click', function() {
+            toggleTermsConditionsModal(false);
+        });
+
+
+        function toggleTermsConditionsModal(state) {
+            document.getElementById('termsModal').style.display = state ? 'block' : 'none';
+        }
+
+        function getData() {
+            var textData = document.getElementById("textarea").value;
+            if (textData == "") {
+                alert("Please enter text to synthesize.");
+                return;
+            }
+            console.log("Text: " + textData);
+            
+            // Hide player if it is visible
+            if (player === null) player = document.getElementById("player");
+            player.classList.remove("fade-in");
+            player.classList.add("fade-out");
+
+            // Send POST to SynthTnT
+            fetch('/synthesize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: textData})
+            })
+            .then(async function(response) {
+                let result = await response.text();
+                console.log("Result: " + result);
+                if (result !== "Success") {
+                    alert("An error occured. Please refresh the page and try again.");
+                    return;
+                }
+
+                // Show player if it was hidden
+                player.classList.remove("fade-out");
+                player.classList.add("fade-in");
+
+                // Change audio source
+                changeAudio();
+            })
+        }
+    </script>
+</body>
+</html>

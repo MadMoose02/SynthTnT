@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynthTnT</title>
+    <link rel="icon" type="image/png" href="/images/favicon/favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+</head>
+<body>
+    <div id="eval-form-modal" class="modal overlay">
+        <div class="modal-content">
+            <h2>Demographic Data Collection</h2>
+            <p>This part of the questionnaire is optional. Please provide your demographic information 
+                to help us improve our application and enhance user experience.
+            </p>
+            <p><b>Note:</b> You can opt out of this by clicking the "Next" button</p>
+            <hr>
+            <br>
+            <form id="demographic-form">
+                <label for="areaOfResidence">Area of Residence:</label>
+                <br>
+                <select id="areaOfResidence" name="areaOfResidence">
+                    <option value="" disabled selected>--Select--</option>
+                    <option value="Chaguanas">Chaguanas</option>
+                    <option value="San Fernando">San Fernando</option>
+                    <option value="Port of Spain">Port of Spain</option>
+                    <option value="Arima">Arima</option>
+                    <option value="San Juan">San Juan</option>
+                    <option value="Diego Martin">Diego Martin</option>
+                    <option value="Couva">Couva</option>
+                    <option value="Point Fortin">Point Fortin</option>
+                    <option value="Princes Town">Princes Town</option>
+                    <option value="Tunapuna">Tunapuna</option>
+                </select>
+                <br><br>
+                <label>Level of Education:</label><br>
+                <input type="checkbox" id="primary" name="educationLevel" value="Primary">
+                <label for="primary">Primary</label><br>
+                <input type="checkbox" id="secondary" name="educationLevel" value="Secondary">
+                <label for="secondary">Secondary</label><br>
+                <input type="checkbox" id="diploma" name="educationLevel" value="Diploma">
+                <label for="diploma">Diploma</label><br>
+                <input type="checkbox" id="undergraduate" name="educationLevel" value="Undergraduate">
+                <label for="undergraduate">Undergraduate</label><br>
+                <input type="checkbox" id="post-graduate" name="educationLevel" value="Post-Graduate">
+                <label for="post-graduate">Post-Graduate</label><br>
+                <br>
+                <label for="ageRange">Age Range:</label><br>
+                <select id="ageRange" name="ageRange">
+                    <option value="" disabled selected>--Select--</option>
+                    <option value="Under 18">Under 18</option>
+                    <option value="18-24">18-24</option>
+                    <option value="25-34">25-34</option>
+                    <option value="35-44">35-44</option>
+                    <option value="45-54">45-54</option>
+                    <option value="55-64">55-64</option>
+                    <option value="65+">65+</option>
+                </select>
+                <br><br>
+            </form>
+            <hr>
+            <br>
+            <button id="proceedToPage" onclick="populateDemographicData()">Next</button>
+            
+        </div>
+    </div>
+    <div id="back">
+        <a href="/"><button id="back-arrow"><i class="material-icons">chevron_left</i></button></a>
+    </div>
+    <div id="start-up">
+        <h1><span class="ombre-text">SynthTnT Pronunciation Evaluation</span></h1>
+        <p><b>Instructions:</b> <br>
+            <i><u>Note: Range of evaluation is from 1 to 5, where 1 is the lowest and 5 is the highest.</u></i>
+        </p>
+        <div id="instructions">
+            <ol>
+                <li>Use audio players below to play audio files</li>
+                <li>Answer the questions that follow (located below the audio players) to evaluate pronunciation accuracy</li>
+                <li>Click the "Next" button to proceed to the next audio sample</li>
+            </ol>
+        </div>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <div>
+            <h2 style="margin-bottom: 0;"><span id="audio-title" class="ombre-text"></span></h2>
+        </div>
+        <div id="player" class="player">
+            <div class="column">
+                <div class="playarea">
+                    <div class="buttons-cols">
+                        <div id="se-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
+                        <div id="se-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
+                        <div id="se-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                    </div>
+                    <div class="seekbar">
+                        <input id="se-seekbar" type="range" value="0" step="0.1">
+                        <audio id="se-audio-player" src=""></audio>
+                    </div>
+                    <div class="time"><span id="se-time" class="ombre-text">0:00</span></div>
+                    <h2><span class="ombre-text">Standard English</span></h2>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="playarea">
+                    <div class="buttons-cols">
+                        <div id="dttec-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
+                        <div id="dttec-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
+                        <div id="dttec-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                    </div>
+                    <div class="seekbar">
+                        <input id="dttec-seekbar" type="range" value="0" step="0.1">
+                        <audio id="dttec-audio-player" src=""></audio>
+                    </div>
+                    <div class="time"><span id="dttec-time" class="ombre-text">0:00</span></div>
+                    <h2><span class="ombre-text">DTTEC Influence</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="questionnaire">
+            <form id="audio-eval">
+                <div class="question">
+                    <label for="q1">1. What word did you hear?</label><br>
+                    <br>
+                    <input type="text" id="q1" name="q1" placeholder="Type your response" required>
+                </div><br>
+                <div class="question">
+                    <label for="q2">2. Rate the clarity of the pronunciation</label><br>
+                    <br>
+                    <input type="radio" id="q2-1" name="q2" value="1" checked>
+                    <label for="q2-1">1</label>
+                    <input type="radio" id="q2-2" name="q2" value="2">
+                    <label for="q2-2">2</label>
+                    <input type="radio" id="q2-3" name="q2" value="3">
+                    <label for="q2-3">3</label>
+                    <input type="radio" id="q2-4" name="q2" value="4">
+                    <label for="q2-4">4</label>
+                    <input type="radio" id="q2-5" name="q2" value="5">
+                    <label for="q2-5">5</label>
+                </div><br>
+                <div class="question">
+                    <label for="q3">3. Rate the naturalness of the pronunciation</label><br>
+                    <br>
+                    <input type="radio" id="q3-1" name="q3" value="1" checked>
+                    <label for="q3-1">1</label>
+                    <input type="radio" id="q3-2" name="q3" value="2">
+                    <label for="q3-2">2</label>
+                    <input type="radio" id="q3-3" name="q3" value="3">
+                    <label for="q3-3">3</label>
+                    <input type="radio" id="q3-4" name="q3" value="4">
+                    <label for="q3-4">4</label>
+                    <input type="radio" id="q3-5" name="q3" value="5">
+                    <label for="q3-5">5</label>
+                </div><br>
+                <div class="question">
+                    <label for="q4">4. How accurately do you believe the voice synthesis model pronounced the word?</label><br>
+                    <br>
+                    <input type="radio" id="q4-1" name="q4" value="1" checked>
+                    <label for="q4-1">1</label>
+                    <input type="radio" id="q4-2" name="q4" value="2">
+                    <label for="q4-2">2</label>
+                    <input type="radio" id="q4-3" name="q4" value="3">
+                    <label for="q4-3">3</label>
+                    <input type="radio" id="q4-4" name="q4" value="4">
+                    <label for="q4-4">4</label>
+                    <input type="radio" id="q4-5" name="q4" value="5">
+                    <label for="q4-5">5</label>
+                </div><br>
+                <div class="question">
+                    <label for="q5">5. To what extent did the pronunciation sound contextually appropriate?</label><br>
+                    <br>
+                    <input type="radio" id="q5-1" name="q5" value="1" checked>
+                    <label for="q5-1">1</label>
+                    <input type="radio" id="q5-2" name="q5" value="2">
+                    <label for="q5-2">2</label>
+                    <input type="radio" id="q5-3" name="q5" value="3">
+                    <label for="q5-3">3</label>
+                    <input type="radio" id="q5-4" name="q5" value="4">
+                    <label for="q5-4">4</label>
+                    <input type="radio" id="q5-5" name="q5" value="5">
+                    <label for="q5-5">5</label>
+                </div><br>
+                <div class="question">
+                    <label for="q6">6. Overall, how satisfied are you with the accuracy of the pronunciation?</label><br>
+                    <br>
+                    <input type="radio" id="q6-1" name="q6" value="1" checked>
+                    <label for="q6-1">1</label>
+                    <input type="radio" id="q6-2" name="q6" value="2">
+                    <label for="q6-2">2</label>
+                    <input type="radio" id="q6-3" name="q6" value="3">
+                    <label for="q6-3">3</label>
+                    <input type="radio" id="q6-4" name="q6" value="4">
+                    <label for="q6-4">4</label>
+                    <input type="radio" id="q6-5" name="q6" value="5">
+                    <label for="q6-5">5</label>
+                </div>
+                <br>
+                <hr><br>
+                <button id="next-audio">Next</button>
+            </form>
+            <a href="/"><button id="home-btn" style="display: none;">Back to Homepage</button></a>
+        </div>
+    </div>
+
+    <div id="scroll">
+        <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button>
+    </div>
+
+    <script type="text/javascript" src="/scripts/audio-manager.js"></script>
+    <script>
+        var userData = { demographicData: {}, evaluations: {} };
+        let numQuestions = 6;
+        let index = 1;
+        let maxIndex = 10;
+        for (let i = 1; i <= maxIndex; i++) {
+            let entry = "sample " + i;
+            userData.evaluations[entry] = [];
+        }
+
+        var scrollToTop   = document.getElementById('scroll');
+        var homeBtn       = document.getElementById('home-btn');
+        var audioTitle    = document.getElementById('audio-title');
+        var evalFormModal = document.getElementById('eval-form-modal');
+        var evalForm      = document.getElementById('audio-eval');
+        var nextAudio     = document.getElementById('next-audio');
+
+        // Scroll to top function
+        scrollToTop.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // If the scroll position is greater than 0, show the scroll to top arrow
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) { scrollToTop.style.display = 'block'; } 
+            else { scrollToTop.style.display = 'none'; }
+        });
+
+        window.onload = function() {
+            toggleEvalFormModal(true);
+        };
+
+        function toggleEvalFormModal(state) {
+            evalFormModal.style.display = state ? 'block' : 'none';
+            document.body.style.overflow = state ? 'hidden' : 'auto';
+        }
+
+        function updateTitle() {
+            audioTitle.innerHTML = `Audio Sample ${index} of 10`;
+        }
+
+        document.getElementById('proceedToPage').addEventListener('click', function() {
+            toggleEvalFormModal(false);
+            updateTitle();
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            toggleAudio('');
+            updateSeekBar('');
+            loadAudioPair(index);
+
+            // Handle the next button click
+            nextAudio.addEventListener('click', function() {
+                event.preventDefault();
+
+                // Extract audio evaluation data
+                let sampleNum = `sample ${index}`;
+                for (var i = 0; i < numQuestions; i++) {
+                    if (i == 0) { 
+                        userData.evaluations[sampleNum].push(document.getElementById(`q${i + 1}`).value);
+                        continue;
+                    }
+                    var radioButtonName = `q${i + 1}`;
+                    var selectedValue = evalForm.elements[radioButtonName].value;
+                    userData.evaluations[sampleNum].push(selectedValue);
+                }
+                console.log(userData.evaluations[`sample ${index}`]);
+                index = (index + 1 > maxIndex) ? maxIndex : index + 1;
+
+                // If the current index is greater than 10, show the thank you message 
+                if (index > 3) {
+                    evalForm.innerHTML = '<p style="text-align: center">Thank you for your time and participation!</p><br>';
+                    homeBtn.style.display = 'unset';
+                    fetch('/upload', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ userData })
+                    })
+                    return;
+                }
+
+                loadAudioPair(index);
+                updateTitle();
+                window.scrollTo({ top: audioTitle.offsetTop, behavior: 'smooth' });
+            });
+        });
+
+        function extractDemographicData() {
+            var formData = new FormData(document.getElementById('demographic-form'));
+            var demographicData = {};
+            for (var pair of formData.entries()) {
+                demographicData[pair[0]] = pair[1];
+            }
+            return demographicData;
+        }
+
+        function populateDemographicData() {
+            userData.demographicData = extractDemographicData();
+        }
+
+        function loadAudioPair(index) {
+            // Construct the file names for the current pair
+            let seFileName = `./audio-tests/se/se-audio-${index}.wav`;
+            let dttecFileName = `./audio-tests/dttec/dttec-audio-${index}.wav`;
+
+            // Set the audio sources
+            document.getElementById('se-audio-player').src = seFileName;
+            document.getElementById('dttec-audio-player').src = dttecFileName;
+
+            // Reset the audio players
+            document.getElementById('se-audio-player').pause();
+            document.getElementById('dttec-audio-player').pause();
+
+            // Reset the evaluation form
+            evalForm.reset();
+        }
+
+    </script>
+</body>
+</html>
