@@ -110,7 +110,7 @@ function updateSeekBar(playerId) {
     // Reset seek bar after the audio has ended
     audioPlayer.addEventListener('ended', () => {
         seekbar.value = 0;
-        timeDisplay.textContent = '00:00';
+        timeDisplay.textContent = '0:00';
     });
 }
 
