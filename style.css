@@ -137,6 +137,12 @@ body {
     outline-width: 0;
 }
 
+#char-count {
+    font-size: 20px; 
+    color: white;
+    margin-bottom: 17px;
+}
+
 button{
     background-color: #ff0000af;
     border: 1px solid #000000;
