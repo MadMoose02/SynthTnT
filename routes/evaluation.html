@@ -314,24 +314,7 @@
         function populateDemographicData() {
             userData.demographicData = extractDemographicData();
         }
-
-        function loadAudioPair(index) {
-            // Construct the file names for the current pair
-            let seFileName = `./audio-tests/se/se-audio-${index}.wav`;
-            let dttecFileName = `./audio-tests/dttec/dttec-audio-${index}.wav`;
-
-            // Set the audio sources
-            document.getElementById('se-audio-player').src = seFileName;
-            document.getElementById('dttec-audio-player').src = dttecFileName;
-
-            // Reset the audio players
-            document.getElementById('se-audio-player').pause();
-            document.getElementById('dttec-audio-player').pause();
-
-            // Reset the evaluation form
-            evalForm.reset();
-        }
-
+        
     </script>
 </body>
 </html>
