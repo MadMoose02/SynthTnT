@@ -11,7 +11,6 @@
   "author": "Keshan Moosai",
   "license": "ISC",
   "dependencies": {
-    "arpabet-and-ipa-convertor-ts": "^1.0.3",
     "dot-env": "^0.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
