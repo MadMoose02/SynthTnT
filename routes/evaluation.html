@@ -217,7 +217,7 @@
         var userData = { demographicData: {}, evaluations: {} };
         let numQuestions = 6;
         let index = 1;
-        let maxIndex = 10;
+        let maxIndex = 15;
         for (let i = 1; i <= maxIndex; i++) {
             let entry = "sample " + i;
             userData.evaluations[entry] = [];
@@ -252,7 +252,7 @@
         }
 
         function updateTitle() {
-            audioTitle.innerHTML = `Audio Sample ${index} of 15`;
+            audioTitle.innerHTML = `Audio Sample ${index} of ${maxIndex}`;
         }
 
         document.getElementById('proceedToPage').addEventListener('click', function() {
@@ -288,8 +288,7 @@
                 console.log(userData.evaluations[`sample ${index}`]);
                 index = (index + 1 > maxIndex) ? maxIndex : index + 1;
 
-                // If the current index is greater than 10, show the thank you message 
-                if (index > 15) {
+                if (index >= 15) {
                     evalForm.innerHTML = '<p style="text-align: center">Thank you for your time and participation!</p><br>';
                     homeBtn.style.display = 'unset';
                     fetch('/upload', {
