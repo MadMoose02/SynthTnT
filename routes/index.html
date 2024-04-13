@@ -18,7 +18,7 @@
             Interact with a Trinidadian Text to Speech Application:
         </p>
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
-        <br>
+        <h2 id="char-count">0/50 characters</h2>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
 
         <div id="player" class="player fade-out">
@@ -146,10 +146,26 @@
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>
         var player = null;
+        var textarea = document.getElementById('textarea');
+        var charCount = document.getElementById('char-count');
         var scrollToTop = document.getElementById('scroll');
+        var testerPrompt = document.getElementById('tester-prompt');
         var testPromptShow = document.getElementById('hint-down');
         var testPromptHide = document.getElementById('hint-up');
-        var testerPrompt = document.getElementById('tester-prompt');
+
+        // Get the terms modal and its contents
+        var modal = document.getElementById('termsModal');
+        var modalContent = modal.querySelector('.modal-content');
+
+        // Add an event listener for when the modal is shown
+        modal.addEventListener('show', function() {
+            modalContent.scrollTop = 0;
+        });
+
+        // Add an input event listener to the textarea
+        textarea.addEventListener('input', function() {
+            updateCharacterCount();
+        });
 
         // Scroll to top function
         scrollToTop.addEventListener("click", function() {
@@ -198,12 +214,22 @@
             // Reset audio players and seekbars
             toggleAudio('');
             updateSeekBar('');
+
+            // Character count
+            updateCharacterCount();
         });
 
         document.getElementById('backToHome').addEventListener('click', function() {
             toggleTermsConditionsModal(false);
         });
 
+        function updateCharacterCount() {
+            charCount.textContent = textarea.value.length + '/50 characters';
+
+            // Display the character limit as red if it exceeds 50
+            if (textarea.value.length > 50) charCount.style.color = 'red';
+            else charCount.style.color = 'white';
+        }
 
         function toggleTermsConditionsModal(state) {
             document.getElementById('termsModal').style.display = state ? 'block' : 'none';
@@ -213,6 +239,10 @@
             var textData = document.getElementById("textarea").value;
             if (textData == "") {
                 alert("Please enter text to synthesize.");
+                return;
+            }
+            if (textData.length > 50) {
+                alert("Text is longer than the 50 character limit.");
                 return;
             }
             console.log("Text: " + textData);
