@@ -118,7 +118,7 @@
                         <audio id="dttec-audio-player" src=""></audio>
                     </div>
                     <div class="time"><span id="dttec-time" class="ombre-text">0:00</span></div>
-                    <h2><span class="ombre-text">DTTEC Influence</span></h2>
+                    <h2><span class="ombre-text">SynthTnT</span></h2>
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
                     <input type="text" id="q1" name="q1" placeholder="Type your response..." required>
                 </div><br>
                 <div class="question">
-                    <label for="q2">2. Rate the clarity of the pronunciation</label><br>
+                    <label for="q2">2. Rate the clarity of the SynthTnT's pronunciation</label><br>
                     <br>
                     <input type="radio" id="q2-1" name="q2" value="1">
                     <label for="q2-1">1</label>
@@ -145,7 +145,7 @@
                     <label for="q2-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q3">3. Rate the naturalness of the pronunciation</label><br>
+                    <label for="q3">3. Rate the naturalness of SynthTnT's pronunciation</label><br>
                     <br>
                     <input type="radio" id="q3-1" name="q3" value="1">
                     <label for="q3-1">1</label>
@@ -159,7 +159,7 @@
                     <label for="q3-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q4">4. How accurately do you believe the voice synthesis model pronounced the word?</label><br>
+                    <label for="q4">4. How accurately did the voice synthesis pronounced the word?</label><br>
                     <br>
                     <input type="radio" id="q4-1" name="q4" value="1">
                     <label for="q4-1">1</label>
@@ -173,7 +173,7 @@
                     <label for="q4-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q5">5. To what extent did the pronunciation sound contextually appropriate?</label><br>
+                    <label for="q5">5. To what extent did SynthTnT's pronunciation sound better than the Standard English pronunciation?</label><br>
                     <br>
                     <input type="radio" id="q5-1" name="q5" value="1">
                     <label for="q5-1">1</label>
@@ -187,7 +187,7 @@
                     <label for="q5-5">5</label>
                 </div><br>
                 <div class="question">
-                    <label for="q6">6. Overall, how satisfied are you with the accuracy of the pronunciation?</label><br>
+                    <label for="q6">6. Overall, how satisfied are you with SynthTnT's pronunciation?</label><br>
                     <br>
                     <input type="radio" id="q6-1" name="q6" value="1">
                     <label for="q6-1">1</label>
@@ -218,7 +218,7 @@
         var userData = { demographicData: {}, evaluations: {} };
         let numQuestions = 6;
         let index = 1;
-        let maxIndex = 15;
+        let maxIndex = 10;
         for (let i = 1; i <= maxIndex; i++) {
             let entry = "sample " + i;
             userData.evaluations[entry] = [];
@@ -278,9 +278,9 @@
                     userData.evaluations[sampleNum].push(selectedValue);
                 }
                 console.log(userData.evaluations[`sample ${index}`]);
-                index = (index + 1 > maxIndex) ? maxIndex : index + 1;
-
-                if (index >= 15) {
+                index++;
+                
+                if (index > maxIndex) {
                     evalForm.innerHTML = '<p style="text-align: center">Thank you for your time and participation!</p><br>';
                     homeBtn.style.display = 'unset';
                     fetch('/upload', {
@@ -292,7 +292,7 @@
                     })
                     return;
                 }
-
+                
                 loadAudioPair(index);
                 updateTitle();
                 window.scrollTo({ top: audioTitle.offsetTop, behavior: 'smooth' });
