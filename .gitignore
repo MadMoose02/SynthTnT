@@ -13,3 +13,6 @@ yarn.lock
 # Express.js files
 .pnp.cjs
 .yarn
+
+# Exclude audio gen folder
+audio-gen/*
