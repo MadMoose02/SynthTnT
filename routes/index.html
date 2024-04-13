@@ -11,8 +11,12 @@
 <body style="overflow: hidden;">
     <div id="welcome" class="playarea">
         <h1 style="margin-bottom: 0; font-size: 60px;"><span class="ombre-text">SynthTnT</span></h1>
-        <p>Interact with a Trinidadian Text to Speech Application</p>
-        <br><br>
+        <p>Become a beta tester (Select the down arrow at the bottom right corner of the page)
+            <br>
+            OR 
+            <br>
+            Interact with a Trinidadian Text to Speech Application:
+        </p>
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
         <br>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
@@ -53,7 +57,6 @@
     </div>
 
     <div id="hint-down"><i class="material-icons">keyboard_arrow_down</i></div>
-    <div id="hint-up"><i class="material-icons">keyboard_arrow_up</i></div>
     <div id="tester-prompt" style="display: none;">
         <h1><span class="ombre-text">Become a Beta Tester!</span></h1>
         <p>Join our team as a beta tester and be among the first to experience our latest innovations. 
@@ -67,6 +70,7 @@
             Thank you in advance for your contribution!
         </p>
         <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Terms and Conditions</button>
+        <div id="hint-up"><i class="material-icons">keyboard_arrow_up</i></div>
 
         <div id="termsModal" class="modal overlay">
             <div class="modal-content">
@@ -138,7 +142,6 @@
     </div>
 
     <div id="scroll">
-        <!-- <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button> -->
     </div>
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>

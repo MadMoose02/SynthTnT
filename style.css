@@ -55,6 +55,8 @@ body {
     color: gray;
     width: 50px;
     animation: bounce 1.6s infinite;
+    float: right;
+    padding: 10pt;
 }
 
 #hint-down i:hover {
@@ -64,7 +66,6 @@ body {
 #hint-up {
     display: none;
     position: absolute;
-    bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
@@ -83,6 +84,8 @@ body {
     color: gray;
     width: 50px;
     animation: bounce 1.6s infinite;
+    float: right;
+    padding: 10pt;
 }
 
 #hint-up i:hover {
@@ -185,7 +188,7 @@ button:hover{
     left: 0;
     top: 0;
     width: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.938);
 }
 
 .modal-content {
@@ -230,6 +233,7 @@ button:hover{
 }
 
 /* Terms and Conditions Modal */
+
 #eval-form-modal p,
 #termsModal p{
     font-weight: bold;
@@ -251,9 +255,18 @@ hr{
     opacity: 50%;
 }
 
+/* Demographic Form */
 form {
     color: #9e9e9e;
     text-align: left;
+}
+
+#q1-input input{
+    font-size: 18px;
+    background-color: #222121d5;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    color: #9e9e9e;
 }
 
 #demographic-form select {
@@ -297,12 +310,6 @@ form {
 #form {
     filter: invert(1);
     text-align: center;
-}
-
-iframe{
-    width: 90%;
-    padding: 20px;
-    background-color: #f0f0f0;
 }
 
 #questionnaire {
@@ -412,13 +419,14 @@ img:hover,
     transition: opacity 0.5s;
 }
 
-#back-arrow {
-    color: #af0c0c; 
-    width: 80px;
-}
-
-#back button{
+#back-arrow{
     background-color: #000000;
     border-radius: 3pt;
+    width: 80px;
+   
+}
+
+#back-arrow i {
+    color: #af0c0c; 
 }
 
