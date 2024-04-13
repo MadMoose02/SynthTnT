@@ -120,17 +120,17 @@ app.post('/transcript', function (req, res) {
 
 /* Synthesise audio */
 app.post('/synthesize', async function (req, res) {
+    if (req.body.text.length > 50) return res.status(400).send('Text is longer than the 50 character limit');
     console.log(`[${getDateTime()}] Synthesising audio for text: ${req.body.text}`);
     let status = 200;
     const ssml = await convert(req.body.text).then((ssml) => {
         console.log(`[${getDateTime()}] Synthesised SSML: ${ssml.length > 0 ? 'True' : 'False'}`);
         return ssml;
-    }).catch((err) => {
-        console.log(`[${getDateTime()}] Error: ${err}`);
-        status = 500;
-        return null;
     });
-    if (ssml === null) return res.status(500).send('Error');
+    if (ssml === null) {
+        console.log(`[${getDateTime()}] SSML conversion failed`);
+        return res.status(500).send('Core failure: SSML conversion failed');
+    }
 
     // Synthesise with default voice
     status = await synthesiseAudio(req.body.text, false, ttsVoice)
@@ -138,7 +138,7 @@ app.post('/synthesize', async function (req, res) {
             console.log(`[${getDateTime()}] Success: Standard English Audio synthesised`);
             return 200;
         })
-        .catch((err) => console.log(`[${getDateTime()}] Error: ${err}`));
+        .catch((err) => console.log(`[${getDateTime()}] ${err}`));
 
     // Synthesise with dttec influence
     status = await synthesiseAudio(ssml, true, ttsVoice)
@@ -146,23 +146,24 @@ app.post('/synthesize', async function (req, res) {
             console.log(`[${getDateTime()}] Success: DTTEC-influenced Audio synthesised`);
             return 200;
         })
-        .catch((err) => console.log(`[${getDateTime()}] Error: ${err}`));
+        .catch((err) => console.log(`[${getDateTime()}] ${err}`));
 
     res.status(status === 200 ? 200 : 500).send(status === 200 ? 'Success' : 'Error');
 });
-
 
 /* Upload form data to Google Drive */
 app.post('/upload', upload.any(), async (req, res) => {
     console.log(`[${getDateTime()}] Received evaluation data`);
     try {
-        const { body, files } = req;
-
-        // Save form data as JSON then upload to Google Drive
-        const formData  = JSON.stringify(body);
+        let { body, files } = req;
         const now       = new Date();
         const timestamp = `${now.getDate()}-${now.getMonth()}-${now.getFullYear()}-${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
         const filename  = `eval-${timestamp}.json`;
+        
+        // Build form data into JSON
+        body['ip-address'] = req.ip || req.headers['x-forwarded-for'];
+        body['timestamp'] = getDateTime();
+        const formData = JSON.stringify(body);
         console.log(`[${getDateTime()}] Saving data to: ${filename}`);
 
         // Upload JSON to Google Drive
