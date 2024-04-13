@@ -11,10 +11,14 @@
 <body style="overflow: hidden;">
     <div id="welcome" class="playarea">
         <h1 style="margin-bottom: 0; font-size: 60px;"><span class="ombre-text">SynthTnT</span></h1>
-        <p>Interact with a Trinidadian Text to Speech Application</p>
-        <br><br>
+        <p>Become a beta tester (Select the down arrow at the bottom right corner of the page)
+            <br>
+            OR 
+            <br>
+            Interact with a Trinidadian Text to Speech Application:
+        </p>
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
-        <br>
+        <h2 id="char-count">0/50 characters</h2>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
 
         <div id="player" class="player fade-out">
@@ -53,7 +57,6 @@
     </div>
 
     <div id="hint-down"><i class="material-icons">keyboard_arrow_down</i></div>
-    <div id="hint-up"><i class="material-icons">keyboard_arrow_up</i></div>
     <div id="tester-prompt" style="display: none;">
         <h1><span class="ombre-text">Become a Beta Tester!</span></h1>
         <p>Join our team as a beta tester and be among the first to experience our latest innovations. 
@@ -67,6 +70,7 @@
             Thank you in advance for your contribution!
         </p>
         <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Terms and Conditions</button>
+        <div id="hint-up"><i class="material-icons">keyboard_arrow_up</i></div>
 
         <div id="termsModal" class="modal overlay">
             <div class="modal-content">
@@ -138,15 +142,30 @@
     </div>
 
     <div id="scroll">
-        <!-- <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button> -->
     </div>
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>
         var player = null;
+        var textarea = document.getElementById('textarea');
+        var charCount = document.getElementById('char-count');
         var scrollToTop = document.getElementById('scroll');
+        var testerPrompt = document.getElementById('tester-prompt');
         var testPromptShow = document.getElementById('hint-down');
         var testPromptHide = document.getElementById('hint-up');
-        var testerPrompt = document.getElementById('tester-prompt');
+
+        // Get the terms modal and its contents
+        var modal = document.getElementById('termsModal');
+        var modalContent = modal.querySelector('.modal-content');
+
+        // Add an event listener for when the modal is shown
+        modal.addEventListener('show', function() {
+            modalContent.scrollTop = 0;
+        });
+
+        // Add an input event listener to the textarea
+        textarea.addEventListener('input', function() {
+            updateCharacterCount();
+        });
 
         // Scroll to top function
         scrollToTop.addEventListener("click", function() {
@@ -195,12 +214,22 @@
             // Reset audio players and seekbars
             toggleAudio('');
             updateSeekBar('');
+
+            // Character count
+            updateCharacterCount();
         });
 
         document.getElementById('backToHome').addEventListener('click', function() {
             toggleTermsConditionsModal(false);
         });
 
+        function updateCharacterCount() {
+            charCount.textContent = textarea.value.length + '/50 characters';
+
+            // Display the character limit as red if it exceeds 50
+            if (textarea.value.length > 50) charCount.style.color = 'red';
+            else charCount.style.color = 'white';
+        }
 
         function toggleTermsConditionsModal(state) {
             document.getElementById('termsModal').style.display = state ? 'block' : 'none';
@@ -210,6 +239,10 @@
             var textData = document.getElementById("textarea").value;
             if (textData == "") {
                 alert("Please enter text to synthesize.");
+                return;
+            }
+            if (textData.length > 50) {
+                alert("Text is longer than the 50 character limit.");
                 return;
             }
             console.log("Text: " + textData);

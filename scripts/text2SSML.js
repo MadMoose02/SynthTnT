@@ -1,5 +1,3 @@
-import { toIPA } from 'arpabet-and-ipa-convertor-ts';
-let DTTECEndpoint = `https://dttec-api.onrender.com/get-pronunciation`;
 let defaultXML = `
 <?xml version="1.0"?>
 <speak version="1.1"
@@ -45,7 +43,7 @@ export async function convert(text) {
         if (response.status === 'OK') {
 
             // Convert ipa to ssml and push into tags
-            await convertToSSML(word, toIPA(response.pronunciation)).then((ssml) => {
+            await convertToSSML(word, response.pronunciation).then((ssml) => {
                 ssml = '<phoneme' + ssml.split('<phoneme')[1].split('</phoneme>')[0] + '</phoneme>';
                 tags.push(ssml);
             });
@@ -58,10 +56,3 @@ export async function convert(text) {
 
     return '<p><s>' + tags.join(' ') + (isQuestion ? "?" : "") + "</s></p>";
 }
-
-// Command line (Node.js)
-// if (require.main === module) {
-//     let sentence = "Hey, it have a Phagwa celebration today";
-//     // convert(sentence).then((_) => console.log(`\nFinal SSML: ${_}`));
-//     convert(sentence);
-// }

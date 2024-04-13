@@ -1,5 +1,21 @@
 const playerIds = ['dttec', 'se'];
 
+// Function to change audio file
+function changeAudio(isTestAudio = false) {
+    let dttecAudioPlayer = document.getElementById('dttec-audio-player');
+    let seAudioPlayer    = document.getElementById('se-audio-player');
+
+    // Set the selected audio file as the source for the audio player
+    if (isTestAudio) {
+        let audioSelect      = document.getElementById('audio-select');
+        dttecAudioPlayer.src = "./audio-tests/dttec/dttec-" + audioSelect.value;
+        seAudioPlayer.src    = "./audio-tests/se/se-" + audioSelect.value;
+        return;
+    }
+    dttecAudioPlayer.src =  "./audio-gen/watson-tts-ssml.wav";
+    seAudioPlayer.src    =  "./audio-gen/watson-tts.wav";
+}
+
 // Function to handle play, pause, and stop actions
 function toggleAudio(playerId) {
     if (playerId === '' || playerId === null) {
@@ -27,6 +43,24 @@ function toggleAudio(playerId) {
         audioPlayer.pause();
         audioPlayer.currentTime = 0;
     });
+}
+
+// Function to load the audio pair
+function loadAudioPair(index) {
+    // Construct the file names for the current pair
+    let seFileName = `./audio-tests/se/se-audio-${index}.wav`;
+    let dttecFileName = `./audio-tests/dttec/dttec-audio-${index}.wav`;
+
+    // Set the audio sources
+    document.getElementById('se-audio-player').src = seFileName;
+    document.getElementById('dttec-audio-player').src = dttecFileName;
+
+    // Reset the audio players
+    document.getElementById('se-audio-player').pause();
+    document.getElementById('dttec-audio-player').pause();
+
+    // Reset the evaluation form
+    evalForm.reset();
 }
 
 // Function to pause the other player
@@ -76,7 +110,7 @@ function updateSeekBar(playerId) {
     // Reset seek bar after the audio has ended
     audioPlayer.addEventListener('ended', () => {
         seekbar.value = 0;
-        timeDisplay.textContent = '00:00';
+        timeDisplay.textContent = '0:00';
     });
 }
 
