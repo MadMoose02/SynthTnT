@@ -10,13 +10,9 @@
 </head>
 <body style="overflow: hidden;">
     <div id="welcome" class="playarea">
-        <h1 style="margin-bottom: 0; font-size: 60px;"><span class="ombre-text">SynthTnT</span></h1>
-        <p>Become a beta tester (Select the down arrow at the bottom right corner of the page)
-            <br>
-            OR 
-            <br>
-            Interact with a Trinidadian Text to Speech Application:
-        </p>
+        <h1><span class="ombre-text">SynthTnT</span></h1>
+        <p>Become a beta tester <br> (Select bouncing arrow to bottom right)<br><br>OR<br><br>
+            Interact with a Trinidadian Text to Speech Application</p>
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
         <h2 id="char-count">0/50 characters</h2>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
@@ -63,18 +59,18 @@
             We invite YOU to become a pioneer in testing our product.
             <br><br>
             Simply listen to sample audios and provide feedback on pronunciation accuracy. 
-            If you're ready to participate, click the button below to access the terms and conditions before
+            If you're ready to participate, click the button below to view our disclaimer before
             proceeding to a brief questionnaire. 
             Your insights are highly valued.
             <br><br>
             Thank you in advance for your contribution!
         </p>
-        <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Terms and Conditions</button>
+        <button id="eval-btn" onclick=toggleTermsConditionsModal(true);>Disclaimer</button>
         <div id="hint-up"><i class="material-icons">keyboard_arrow_up</i></div>
 
         <div id="termsModal" class="modal overlay">
             <div class="modal-content">
-                <h2>Terms and Conditions</h2>
+                <h2>We Require Your Consent</h2>
                 <p>Thank you for participating in our questionnaire for the voice synthesis model aimed at capturing 
                     pronunciation of Trinidadian and Tobagonian English Creole words. 
                     Before proceeding, please carefully read and agree to the following terms and conditions 
@@ -138,7 +134,7 @@
             </div>
         </div>
 
-        <br><br>
+        <br><br><br><br>
     </div>
 
     <div id="scroll">
@@ -236,45 +232,8 @@
         }
 
         function getData() {
-            var textData = document.getElementById("textarea").value;
-            if (textData == "") {
-                alert("Please enter text to synthesize.");
-                return;
-            }
-            if (textData.length > 50) {
-                alert("Text is longer than the 50 character limit.");
-                return;
-            }
-            console.log("Text: " + textData);
-            
-            // Hide player if it is visible
-            if (player === null) player = document.getElementById("player");
-            player.classList.remove("fade-in");
-            player.classList.add("fade-out");
-
-            // Send POST to SynthTnT
-            fetch('/synthesize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({text: textData})
-            })
-            .then(async function(response) {
-                let result = await response.text();
-                console.log("Result: " + result);
-                if (result !== "Success") {
-                    alert("An error occured. Please refresh the page and try again.");
-                    return;
-                }
-
-                // Show player if it was hidden
-                player.classList.remove("fade-out");
-                player.classList.add("fade-in");
-
-                // Change audio source
-                changeAudio();
-            })
+            alert("Sorry, the evaluation period capacity for SynthTnT's speech synthesis service has been reached.");
+            return;
         }
     </script>
 </body>

@@ -187,4 +187,12 @@ app.listen(process.env.PORT || 8080, function() {
     console.log('Listening on port 8080');
     console.log('----------------------------');
     console.log(`[${getDateTime()}] Server is live at http://${process.env.HOST || 'localhost'}:${process.env.PORT || 8080}`);
+    console.log(`[${getDateTime()}] Fetching DTTEC API ...`);
+
+    // Send HEAD to check if API is ready
+    fetch(process.env.DTTEC_ENDPOINT, { method: 'HEAD' })
+        .then((response) => {
+            console.log(`[${getDateTime()}] DTTEC API: ${response.status === 200 ? 'Ready' : 'Unavailable'}`);
+        })
+        .catch((err) => console.log(`[${getDateTime()}] ${err}`));
 });

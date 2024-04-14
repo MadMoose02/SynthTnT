@@ -97,8 +97,8 @@ body {
 #welcome p,
 #instructions{
     font-size: 13pt;
+    padding: 10px;
     color: white;
-    
 }
 
 .ombre-text{
@@ -163,7 +163,8 @@ button:hover{
 }
 
 #tester-prompt{
-    width: 90vh;
+    width: 90%;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 130px;
@@ -337,8 +338,7 @@ form {
 
 /* Templated*/
 /* Player Section */
-.player{
-    position: relative;
+.player {
     top: 5%;
     padding-bottom: 10px;
     justify-content: space-between;
@@ -399,17 +399,6 @@ img:hover,
     margin:10px;
 }
 
-
-/* Scroll Button*/
-/* #scroll-to-top-arrow,
-#scroll-to-top-arrow i {
-    float: right;
-    background-color: #af0c0c; 
-    border-radius: 50%; 
-    border: #000000;
-    padding: 10px;
-} */
-
 #scroll {
     display: none;
     position: fixed;
@@ -437,3 +426,82 @@ img:hover,
     color: #af0c0c; 
 }
 
+
+/* Target Screens less than 800px wide */
+@media screen and (max-width: 800px) {
+
+    /* Body Adjustments */
+    body {
+      font-size: 12px; /* Adjust base font size for mobile */
+    }
+
+    /* Text Input Section */
+    #textarea {
+      width: 80%; /* Increase text input width */
+    }
+
+    #tester-prompt {
+        width: auto;
+        margin: 10px;
+    }
+  
+    /* Modals */
+    .modal-content {
+      width: 80%; /* Adjust modal width */
+    }
+  
+    /* Testing Page */
+    #start-up {
+      padding: 10px; /* Adjust padding for smaller screens */
+    }
+  
+    #instructions {
+      font-size: 16px; /* Adjust instruction font size */
+      width: auto;
+    }
+  
+    /* Form Section */
+    #questionnaire {
+      font-size: 18px; /* Adjust questionnaire font size */
+      margin-top: 10vh; /* Adjust margin for better placement */
+    }
+  
+    /* Player Section */
+    .player {
+      max-height: unset; /* Remove max-height for better layout */
+      flex-direction: column;
+    }
+
+    .playarea {
+        width: 100%;
+    }
+  
+    .column {
+      flex: 100%; /* Make columns take full width */
+    }
+  
+    .buttons-cols {
+      flex-direction: row;
+      margin-top: 12px;
+      margin-left: 60px;
+      margin-right: 60px;
+    }
+  
+    .play-btn img {
+        height: 12vh;
+    }
+
+    .pause-stop-btn img {
+        height: 6vh;
+    }
+  
+    .seekbar {
+      width: 100%; /* Make seekbar take full width */
+    }
+
+    #next-audio {
+        float: none;
+        margin-left: 25vw;
+    }
+  }
+  

@@ -4,7 +4,7 @@ function toggleEvalFormModal(state) {
 }
 
 function updateTitle() {
-    audioTitle.innerHTML = `Audio Sample ${index} of ${maxIndex}`;
+    audioTitle.innerHTML = `${index} of ${maxIndex}`;
 }
 
 function extractDemographicData() {
