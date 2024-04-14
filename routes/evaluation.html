@@ -230,6 +230,7 @@
         var evalFormModal = document.getElementById('eval-form-modal');
         var evalForm      = document.getElementById('audio-eval');
         var nextAudio     = document.getElementById('next-audio');
+        
 
         // Scroll to top function
         scrollToTop.addEventListener("click", function() {
@@ -259,11 +260,9 @@
             // Handle the next button click
             nextAudio.addEventListener('click', function() {
                 event.preventDefault();
-
+                
                 // Validate the form
-                if (!validateForm()) {
-                    return;
-                }
+                if (!validateForm()) { return; }
 
                 // Extract audio evaluation data
                 let sampleNum = `sample ${index}`;

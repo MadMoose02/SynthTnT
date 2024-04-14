@@ -7,8 +7,17 @@
     <link rel="icon" type="image/png" href="/images/favicon/favicon.ico">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .player {
+            display: none;
+        }
+    </style>
 </head>
-<body style="overflow: hidden;">
+<body>
     <div id="welcome" class="playarea">
         <h1><span class="ombre-text">SynthTnT</span></h1>
         <p>Become a beta tester <br> (Select bouncing arrow to bottom right)<br><br>OR<br><br>
@@ -51,6 +60,7 @@
             </div>
         </div>
     </div>
+    <br><br>
 
     <div id="hint-down"><i class="material-icons">keyboard_arrow_down</i></div>
     <div id="tester-prompt" style="display: none;">
@@ -137,11 +147,11 @@
         <br><br><br><br>
     </div>
 
-    <div id="scroll">
-    </div>
+    <div id="scroll"></div>
     <script type="text/javascript" src="/scripts/audio-manager.js"></script>
     <script>
         var player = null;
+        var welcome = document.getElementById('welcome');
         var textarea = document.getElementById('textarea');
         var charCount = document.getElementById('char-count');
         var scrollToTop = document.getElementById('scroll');
@@ -168,12 +178,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // If the scroll position is greater than 0, show the scroll to top arrow
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 100) { scrollToTop.style.display = 'block'; } 
-            else { scrollToTop.style.display = 'none'; }
-        });
-
         // If the test prompt hint button is clicked, show the tester prompt
         testPromptShow.addEventListener("click", function() {
             testerPrompt.classList.remove('fade-out');
@@ -182,17 +186,18 @@
                 testerPrompt.style.display = 'block';
                 testPromptShow.style.display = 'none';
                 testPromptHide.style.display = 'block';
-                window.scrollTo({ top: testerPrompt.offsetTop, behavior: 'smooth' });
+                var y = testerPrompt.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
             }
         });
 
         // If the hide tester prompt button is clicked, hide the tester prompt
         testPromptHide.addEventListener("click", function() {
+            window.scrollTo({ top: window.top, behavior: 'smooth' });
             testerPrompt.classList.add('fade-out');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            testPromptHide.style.display = 'none';
-
+            
             setTimeout(function() {
+                testPromptHide.style.display = 'none';
                 testPromptShow.style.display = 'none';
                 testerPrompt.classList.remove('fade-out');
                 testerPrompt.classList.remove('fade-in');
