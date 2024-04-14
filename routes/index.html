@@ -236,6 +236,8 @@
         }
 
         function getData() {
+            alert("Sorry, the evaluation period capacity for SynthTnT's speech synthesis service has been reached.");
+            return;
             var textData = document.getElementById("textarea").value;
             if (textData == "") {
                 alert("Please enter text to synthesize.");
