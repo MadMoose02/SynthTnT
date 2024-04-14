@@ -238,45 +238,6 @@
         function getData() {
             alert("Sorry, the evaluation period capacity for SynthTnT's speech synthesis service has been reached.");
             return;
-            var textData = document.getElementById("textarea").value;
-            if (textData == "") {
-                alert("Please enter text to synthesize.");
-                return;
-            }
-            if (textData.length > 50) {
-                alert("Text is longer than the 50 character limit.");
-                return;
-            }
-            console.log("Text: " + textData);
-            
-            // Hide player if it is visible
-            if (player === null) player = document.getElementById("player");
-            player.classList.remove("fade-in");
-            player.classList.add("fade-out");
-
-            // Send POST to SynthTnT
-            fetch('/synthesize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({text: textData})
-            })
-            .then(async function(response) {
-                let result = await response.text();
-                console.log("Result: " + result);
-                if (result !== "Success") {
-                    alert("An error occured. Please refresh the page and try again.");
-                    return;
-                }
-
-                // Show player if it was hidden
-                player.classList.remove("fade-out");
-                player.classList.add("fade-in");
-
-                // Change audio source
-                changeAudio();
-            })
         }
     </script>
 </body>
