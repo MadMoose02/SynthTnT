@@ -11,10 +11,6 @@
         body {
             overflow: hidden;
         }
-
-        .player {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -25,6 +21,7 @@
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
         <h2 id="char-count">0/50 characters</h2>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
+        <div style="height: 50px"></div>
 
         <div id="player" class="player fade-out">
             <div class="column">
@@ -237,8 +234,45 @@
         }
 
         function getData() {
-            alert("Sorry, the evaluation period of SynthTnT's free form synthesis has passed. Consider evaluating SynthTnT by clicking the arrow at the bottom right.");
-            return;
+            var textData = document.getElementById("textarea").value;
+            if (textData == "") {
+                alert("Please enter text to synthesize.");
+                return;
+            }
+            if (textData.length > 50) {
+                alert("Text is longer than the 50 character limit.");
+                return;
+            }
+            console.log("Text: " + textData);
+            
+            // Hide player if it is visible
+            if (player === null) player = document.getElementById("player");
+            player.classList.remove("fade-in");
+            player.classList.add("fade-out");
+
+            // Send POST to SynthTnT
+            fetch('/synthesize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: textData})
+            })
+            .then(async function(response) {
+                let result = await response.text();
+                console.log("Result: " + result);
+                if (result !== "Success") {
+                    alert("An error occured. Please refresh the page and try again.");
+                    return;
+                }
+
+                // Show player if it was hidden
+                player.classList.remove("fade-out");
+                player.classList.add("fade-in");
+
+                // Change audio source
+                setTimeout(changeAudio(), 200);
+            });
         }
     </script>
 </body>
