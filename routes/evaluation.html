@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynthTnT</title>
-    <link rel="icon" type="image/png" href="/images/favicon/favicon.ico">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/resources/images/favicon/favicon.ico">
+    <link rel="stylesheet" href="/resources/stylesheets/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
 </head>
@@ -13,12 +13,9 @@
     <div id="eval-form-modal" class="modal overlay">
         <div class="modal-content">
             <h2>Demographic Data Collection</h2>
-            <p>This part of the questionnaire is optional. Please provide your demographic information 
-                to help us improve our application and enhance user experience.
-            </p>
+            <p>This part of the questionnaire is optional. Please provide your demographic information to help us improve our application and enhance user experience.</p>
             <p>Note: You can skip this step by clicking the "Next" button</p>
-            <hr>
-            <br>
+            <hr><br>
             <form id="demographic-form">
                 <label for="areaOfResidence">Area of Residence:</label>
                 <br>
@@ -61,63 +58,58 @@
                 </select>
                 <br><br>
             </form>
-            <hr>
-            <br>
+            <hr><br>
             <button id="proceedToPage" onclick="populateDemographicData()">Next</button>
             <br><br>
-            
         </div>
     </div>
     <button id="back-arrow"><a href="/"><i class="material-icons">chevron_left</i></a></button>
     
     <div id="start-up">
-        <h1><span class="ombre-text">SynthTnT Pronunciation Evaluation</span></h1>
-        <p><b>Instructions:</b> <br>
-            <i><u>Note: Range of evaluation is from 1 to 5, where 1 is the lowest and 5 is the highest.</u></i>
-        </p>
+        <h1 class="ombre-text">SynthTnT Pronunciation Evaluation</h1>
+        <h3><b>Instructions:</b></h3>
         <div id="instructions">
             <ol>
                 <li>Use audio players below to play audio files</li>
-                <li>Answer the questions that follow (located below the audio players) to evaluate pronunciation accuracy</li>
+                <li>Select the most appropriate answers for each pair of audio samples</li>
                 <li>Click the "Next" button to proceed to the next audio sample</li>
             </ol>
+            <br>
+            <i><u>Note: Range of evaluation is from <b>1 to 5</b>, where 1 is the <b>lowest</b> and 5 is the <b>highest</b>.</u></i>
         </div>
         <br><br>
         <hr>
         <br>
-        <div>
-            <h2 class="ombre-text">Audio Sample<br><span id="audio-title"></span></h2><br>
-        </div>
-        <div id="player" class="player">
+        <div><h2 class="ombre-text">Audio Sample<br><span id="audio-title"></span></h2><br></div>
+        <div class="player">
             <div class="column">
-                <div class="playarea">
+                <div id="rawtext-player-controls" class="playarea">
                     <div class="buttons-cols">
-                        <div id="se-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
-                        <div id="se-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
-                        <div id="se-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                        <span class="pause-btn"></span>
+                        <span class="play-btn"></span>
+                        <span class="stop-btn"></span>
                     </div>
                     <div class="seekbar">
-                        <input id="se-seekbar" type="range" value="0" step="0.1">
-                        <audio id="se-audio-player" src=""></audio>
+                        <input type="range" value="0" step="0.1">
+                        <audio id="rawtext-audio" src=""></audio>
                     </div>
-                    <div class="time"><span id="se-time" class="ombre-text">0:00</span></div>
-                    <h2><span class="ombre-text">Standard English</span></h2>
+                    <span class="player-duration ombre-text">0:00</span>
+                    <h2 class="ombre-text">Standard English</h2>
                 </div>
             </div>
-            
             <div class="column">
-                <div class="playarea">
+                <div id="ssml-player-controls" class="playarea">
                     <div class="buttons-cols">
-                        <div id="dttec-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
-                        <div id="dttec-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
-                        <div id="dttec-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                        <span class="pause-btn"></span>
+                        <span class="play-btn"></span>
+                        <span class="stop-btn"></span>
                     </div>
                     <div class="seekbar">
-                        <input id="dttec-seekbar" type="range" value="0" step="0.1">
-                        <audio id="dttec-audio-player" src=""></audio>
+                        <input type="range" value="0" step="0.1">
+                        <audio id="ssml-audio" src=""></audio>
                     </div>
-                    <div class="time"><span id="dttec-time" class="ombre-text">0:00</span></div>
-                    <h2><span class="ombre-text">SynthTnT</span></h2>
+                    <span class="player-duration ombre-text">0:00</span>
+                    <h2 class="ombre-text">SynthTnT</h2>
                 </div>
             </div>
         </div>
@@ -211,8 +203,8 @@
         <button id="scroll-to-top-arrow"><i class="material-icons">keyboard_arrow_up</i></button>
     </div>
 
-    <script type="text/javascript" src="/scripts/audio-manager.js"></script>
-    <script type="text/javascript" src="/scripts/form.js"></script>
+    <script type="text/javascript" src="/resources/scripts/audio.js"></script>
+    <script type="text/javascript" src="/resources/scripts/form.js"></script>
     <script>
         var userData = { demographicData: {}, evaluations: {} };
         let numQuestions = 6;
@@ -224,12 +216,12 @@
         }
 
         var q1Input = document.getElementById('q1');
-        var scrollToTop   = document.getElementById('scroll');
-        var homeBtn       = document.getElementById('home-btn');
-        var audioTitle    = document.getElementById('audio-title');
+        var homeBtn = document.getElementById('home-btn');
+        var evalForm = document.getElementById('audio-eval');
+        var nextAudio = document.getElementById('next-audio');
+        var audioTitle = document.getElementById('audio-title');
+        var scrollToTop = document.getElementById('scroll');
         var evalFormModal = document.getElementById('eval-form-modal');
-        var evalForm      = document.getElementById('audio-eval');
-        var nextAudio     = document.getElementById('next-audio');
         
 
         // Scroll to top function
@@ -253,8 +245,8 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            toggleAudio('');
-            updateSeekBar('');
+            toggleAudio();
+            updateSeekBar();
             loadAudioPair(index);
 
             // Handle the next button click
@@ -265,7 +257,7 @@
                 if (!validateForm()) { return; }
 
                 // Extract audio evaluation data
-                let sampleNum = `sample ${index}`;
+                let sampleNum = 'sample ' + index;
                 for (var i = 0; i < numQuestions; i++) {
                     if (i == 0) { 
                         userData.evaluations[sampleNum].push(document.getElementById(`q${i + 1}`).value);

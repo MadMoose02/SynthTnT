@@ -1,9 +1,16 @@
 import fs from 'fs';
+import dotenv from 'dotenv';
 import TextToSpeechV1 from 'ibm-watson/text-to-speech/v1.js';
 import { IamAuthenticator } from 'ibm-watson/auth/index.js';
-const defaultOutputPath = './audio-gen';
-const watsonTTSEndpoint = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/'
 
+import logger from './logger.js';
+import { formatDateTime } from './utils.js';
+
+dotenv.config();
+
+/* Constants */
+const defaultOutputPath = './resources/audio';
+const watsonTTSEndpoint = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com/'
 
 /* Synthesis parameters */
 let synthesisParams = {
@@ -27,7 +34,6 @@ export function setAPIKey(key) {
         serviceUrl: watsonTTSEndpoint,
         accept: synthesisParams.accept
     });
-    return true;
 }
 
 
@@ -37,10 +43,11 @@ export function setAPIKey(key) {
  * @return {?Array<String>} Array of available voices for text-to-speech or null if an error occurs.
  */
 export async function getTTSVoices() {
+    if (textToSpeech === null) return null;
     let x = await textToSpeech.listVoices().then(result => {
         return result.result.voices;
     }).catch(err => {
-        console.error(`WATSON: Error occured whilst retrieving list of voices: ${err.status} - ${err.statusText}`);
+        logger.error(`[WATSON-WEB] Unable to retrieve list of voices due to error: ${err.status} - ${err.statusText}`);
         return null;
     });
     return x;
@@ -59,10 +66,9 @@ export async function setTTSVoice(voice) {
         for (let v of voices) {
             if (v.name !== voice) continue;
             synthesisParams.voice = voice;
+            logger.info(`[WATSON-WEB] Synthesis voice set to '${synthesisParams.voice}'`);
             return true;
         }
-        console.log(`WATSON: Voice '${voice}' not found. Try invoking get_tts_voices() to get a list of available voices.`);
-        console.log(`WATSON: Using default voice '${synthesisParams.voice}'`);
     });
     return true;
 }
@@ -77,42 +83,45 @@ export async function setTTSVoice(voice) {
  * @param {string}  outputPath  The path where the audio file should be stored
  * @param {string}  filename    The name of the audio file
  * @param {string}  audioFormat The format of the audio file (default: `wav`)
- * @returns 
+ * @returns {boolean, string}   Returns true and the path to the audio file if successful, false otherwise.
  */
 export async function synthesiseAudio(
     text, 
     isSSML      = false,
     voice       = synthesisParams.voice, 
     outputPath  = defaultOutputPath,
-    filename    = `watson-tts`, 
-    audioFormat = `wav`) {
+    filename    = formatDateTime().replace(/:/g, '-'),
+    audioFormat = 'wav') {
 
-    if (!setTTSVoice(voice)) { return false; }
-    console.log(`WATSON: Synthesizing audio using voice: ${voice}`);
+    if (!setTTSVoice(voice)) { 
+        logger.warn(`[WATSON-WEB] Unable to set voice to '${voice}'. Using default voice '${synthesisParams.voice}'`);
+    }
     synthesisParams.text = text;
     synthesisParams.accept = `audio/${audioFormat}`;
-    console.log(`WATSON: Using audio format: ${synthesisParams.accept}`);
+    logger.info(`[WATSON-WEB] Using audio format: ${synthesisParams.accept}`);
     
-    // Check for output path
+    // Check for output path. Create it if not exists
     if (!fs.existsSync(outputPath)) { fs.mkdirSync(outputPath); }
 
     // Use TextToSpeechV1 to synthesize audio
     let response = await textToSpeech.synthesize(synthesisParams)
         .then(response => {
-            console.log(`WATSON: Speech audio synthesis successful`);
-            
-            // Use repairWavHeaderStream only for wav formats; otherwise, pipe `response.result` to ofstream
+            logger.info(`[WATSON-WEB] Synthesis response: ${response.status} - ${response.statusText}`);
             return (synthesisParams.accept === 'audio/wav') ? 
                 textToSpeech.repairWavHeaderStream(response.result) : response.result;
-        }).then(buffer => {
-            filename += `${(isSSML ? '-ssml' : '')}`
-            fs.writeFileSync(`${outputPath}/${filename}.${audioFormat}`, buffer);
-            console.log(`WATSON: Synthesised audio written to file: ${outputPath}/${filename}.${audioFormat}`);
+        })
+        .then(buffer => {
+            outputPath += (isSSML) ? '/ssml' : '/rawtext';
+            if (!fs.existsSync(outputPath)) { fs.mkdirSync(outputPath); }
+            outputPath += `/${filename}.${audioFormat}`;
+            fs.writeFileSync(outputPath, buffer);
+            logger.info(`[WATSON-WEB] Audio file saved to: ${outputPath}`);
             return true;
-        }).catch(err => {
-            console.error(`WATSON: Error occurred while synthesizing audio: ${err.status} - ${err.message}\n`);
+        })
+        .catch(err => {
+            logger.error(`[WATSON-WEB] Error occurred during synthesis: ${err.status} - ${err.message}`);
             return false;
         });
 
-    return response.status === 200;
+    return { success: response, path: outputPath };
 }

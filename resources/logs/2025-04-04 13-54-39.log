@@ -1,0 +1,21 @@
+=============================================
+# Server started at: 2025-04-04 13:54:40
+# Node.js version: v20.9.0
+# Yarn version: 1.22.22
+# Operating System: Windows_NT 10.0.22631 (x64)
+# Environment Variables:
+  > PORT: 8080
+  > HOST: localhost
+  > IBM_TTS_VOICE: en-GB_KateV3Voice
+  > DTTEC_ENDPOINT: http://127.0.0.1
+  > DTTEC_PORT: 3000
+=============================================
+
+[2025-04-04 13:54:41] [INFO] Server is live at http://localhost:8080
+[2025-04-04 13:54:41] [INFO] Sending HEAD request to DTTEC API
+[2025-04-04 13:54:41] [INFO] DTTEC API is Ready
+[2025-04-04 13:54:41] [INFO] Successfully authorized Google Drive API.
+[2025-04-04 13:54:45] [INFO] Serving testing page
+[2025-04-04 13:55:00] [INFO] Serving testing page
+[2025-04-04 13:55:43] [INFO] Serving testing page
+[2025-04-04 13:56:36] [INFO] Serving testing page

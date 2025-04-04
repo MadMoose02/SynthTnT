@@ -1,5 +1,3 @@
-const e = require("express");
-
 function toggleEvalFormModal(state) {
     evalFormModal.style.display = state ? 'block' : 'none';
     document.body.style.overflow = state ? 'hidden' : 'auto';

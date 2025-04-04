@@ -1,0 +1,90 @@
+=============================================
+# Server started at: 2025-04-04 14:07:14
+# Node.js version: v20.9.0
+# Yarn version: 1.22.22
+# Operating System: Windows_NT 10.0.22631 (x64)
+# Environment Variables:
+  > PORT: 8080
+  > HOST: localhost
+  > IBM_TTS_VOICE: en-GB_KateV3Voice
+  > DTTEC_ENDPOINT: http://127.0.0.1
+  > DTTEC_PORT: 3000
+=============================================
+
+[2025-04-04 14:07:15] [INFO] Server is live at http://localhost:8080
+[2025-04-04 14:07:15] [INFO] Sending HEAD request to DTTEC API
+[2025-04-04 14:07:15] [INFO] DTTEC API is Ready
+[2025-04-04 14:07:15] [INFO] Successfully authorized Google Drive API.
+[2025-04-04 14:07:17] [INFO] Serving testing page
+[2025-04-04 14:07:36] [INFO] Serving testing page
+[2025-04-04 14:08:01] [INFO] Serving testing page
+[2025-04-04 14:08:54] [INFO] Serving testing page
+[2025-04-04 14:09:37] [INFO] Serving testing page
+[2025-04-04 14:10:10] [INFO] Serving testing page
+[2025-04-04 14:10:46] [INFO] Serving testing page
+[2025-04-04 14:12:06] [INFO] Serving testing page
+[2025-04-04 14:12:44] [INFO] Serving testing page
+[2025-04-04 14:13:38] [INFO] Serving testing page
+[2025-04-04 14:13:51] [INFO] Serving testing page
+[2025-04-04 14:16:38] [INFO] Serving testing page
+[2025-04-04 14:26:19] [INFO] Serving home page
+[2025-04-04 14:26:20] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 14:26:21] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 14:26:53] [INFO] Serving testing page
+[2025-04-04 14:26:55] [INFO] Serving home page
+[2025-04-04 14:26:56] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 14:26:57] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 14:34:15] [INFO] Serving home page
+[2025-04-04 14:34:15] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 14:34:17] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 14:35:30] [INFO] Serving home page
+[2025-04-04 14:35:30] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 14:35:31] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 14:38:13] [INFO] Serving testing page
+[2025-04-04 14:45:10] [INFO] Serving testing page
+[2025-04-04 14:45:26] [INFO] Serving testing page
+[2025-04-04 14:46:20] [INFO] Serving testing page
+[2025-04-04 14:47:26] [INFO] Serving testing page
+[2025-04-04 14:48:37] [INFO] Serving testing page
+[2025-04-04 14:50:03] [INFO] Serving testing page
+[2025-04-04 14:52:34] [INFO] Serving testing page
+[2025-04-04 14:53:04] [INFO] Serving testing page
+[2025-04-04 14:54:25] [INFO] Serving testing page
+[2025-04-04 14:55:36] [INFO] Serving testing page
+[2025-04-04 15:00:19] [INFO] Serving testing page
+[2025-04-04 15:03:12] [INFO] Serving testing page
+[2025-04-04 15:03:20] [INFO] Serving testing page
+[2025-04-04 15:10:14] [INFO] Serving testing page
+[2025-04-04 15:10:43] [INFO] Serving testing page
+[2025-04-04 15:11:35] [INFO] Serving testing page
+[2025-04-04 15:13:30] [INFO] Serving testing page
+[2025-04-04 15:14:18] [INFO] Serving testing page
+[2025-04-04 15:15:19] [INFO] Serving testing page
+[2025-04-04 15:16:08] [INFO] Serving testing page
+[2025-04-04 15:16:29] [INFO] Serving testing page
+[2025-04-04 15:17:19] [INFO] Serving testing page
+[2025-04-04 15:18:22] [INFO] Serving home page
+[2025-04-04 15:18:23] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:18:24] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:19:07] [INFO] Serving home page
+[2025-04-04 15:19:07] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:19:09] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:19:09] [INFO] Serving testing page
+[2025-04-04 15:19:32] [INFO] Serving home page
+[2025-04-04 15:19:33] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:19:34] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:22:24] [INFO] Serving home page
+[2025-04-04 15:22:25] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:22:26] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:23:12] [INFO] Serving home page
+[2025-04-04 15:23:13] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:23:14] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:23:17] [INFO] Serving home page
+[2025-04-04 15:23:17] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:23:17] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:23:19] [INFO] Serving home page
+[2025-04-04 15:23:19] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:23:20] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 15:23:44] [INFO] Serving home page
+[2025-04-04 15:23:44] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 15:23:45] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'

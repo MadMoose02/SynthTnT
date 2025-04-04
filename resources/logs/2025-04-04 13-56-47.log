@@ -1,0 +1,29 @@
+=============================================
+# Server started at: 2025-04-04 13:56:48
+# Node.js version: v20.9.0
+# Yarn version: 1.22.22
+# Operating System: Windows_NT 10.0.22631 (x64)
+# Environment Variables:
+  > PORT: 8080
+  > HOST: localhost
+  > IBM_TTS_VOICE: en-GB_KateV3Voice
+  > DTTEC_ENDPOINT: http://127.0.0.1
+  > DTTEC_PORT: 3000
+=============================================
+
+[2025-04-04 13:56:49] [INFO] Server is live at http://localhost:8080
+[2025-04-04 13:56:49] [INFO] Sending HEAD request to DTTEC API
+[2025-04-04 13:56:49] [INFO] DTTEC API is Ready
+[2025-04-04 13:56:49] [INFO] Successfully authorized Google Drive API.
+[2025-04-04 13:56:52] [INFO] Serving testing page
+[2025-04-04 13:57:05] [INFO] Serving testing page
+[2025-04-04 13:57:26] [INFO] Serving home page
+[2025-04-04 13:57:27] [INFO] Set IBM Watson TTS voice: Success
+[2025-04-04 13:57:28] [INFO] [WATSON-WEB] Synthesis voice set to 'en-GB_KateV3Voice'
+[2025-04-04 13:57:31] [INFO] Serving testing page
+[2025-04-04 14:03:29] [INFO] Serving testing page
+[2025-04-04 14:03:56] [INFO] Serving testing page
+[2025-04-04 14:05:10] [INFO] Serving testing page
+[2025-04-04 14:05:33] [INFO] Serving testing page
+[2025-04-04 14:05:44] [INFO] Serving testing page
+[2025-04-04 14:06:54] [INFO] Serving testing page

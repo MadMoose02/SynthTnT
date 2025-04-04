@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynthTnT</title>
-    <link rel="icon" type="image/png" href="/images/favicon/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/png" href="/resources/images/favicon/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/resources/stylesheets/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
@@ -19,40 +19,38 @@
         <p>Become a beta tester <br> (Select bouncing arrow to bottom right)<br><br>OR<br><br>
             Interact with a Trinidadian Text to Speech Application</p>
         <div><textarea id="textarea" placeholder="Enter text here..."></textarea><br></div>
-        <h2 id="char-count">0/50 characters</h2>
+        <h2 id="char-count"></h2>
         <button id="submit-btn" onclick="getData()"><b>Submit Text</b></button>
         <div style="height: 50px"></div>
-
-        <div id="player" class="player fade-out">
+        <div class="player fade-out">
             <div class="column">
-                <div class="playarea">
+                <div id="rawtext-player-controls" class="playarea">
                     <div class="buttons-cols">
-                        <div id="se-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
-                        <div id="se-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
-                        <div id="se-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                        <span class="pause-btn"></span>
+                        <span class="play-btn"></span>
+                        <span class="stop-btn"></span>
                     </div>
                     <div class="seekbar">
-                        <input id="se-seekbar" type="range" value="0" step="0.1">
-                        <audio id="se-audio-player" src=""></audio>
+                        <input type="range" value="0" step="0.1">
+                        <audio id="rawtext-audio" src=""></audio>
                     </div>
-                    <div class="time"><span id="se-time" class="ombre-text">0:00</span></div>
-                    <h2><span class="ombre-text">Standard English</span></h2>
+                    <span class="player-duration ombre-text">0:00</span>
+                    <h2 class="ombre-text">Standard English</h2>
                 </div>
             </div>
-            
             <div class="column">
-                <div class="playarea">
+                <div id="ssml-player-controls" class="playarea">
                     <div class="buttons-cols">
-                        <div id="dttec-pause-btn" class="pause-stop-btn"><img src="/images/pause-btn.png"></div>
-                        <div id="dttec-play-btn" class="play-btn"><img src="/images/play-btn.png"></div>
-                        <div id="dttec-stop-btn" class="pause-stop-btn"><img src="/images/stop-btn.png"></div>
+                        <span class="pause-btn"></span>
+                        <span class="play-btn"></span>
+                        <span class="stop-btn"></span>
                     </div>
                     <div class="seekbar">
-                        <input id="dttec-seekbar" type="range" value="0" step="0.1">
-                        <audio id="dttec-audio-player" src=""></audio>
+                        <input type="range" value="0" step="0.1">
+                        <audio id="ssml-audio" src=""></audio>
                     </div>
-                    <div class="time"><span id="dttec-time" class="ombre-text">0:00</span></div>
-                    <h2><span class="ombre-text">DTTEC Influence</span></h2>
+                    <span class="player-duration ombre-text">0:00</span>
+                    <h2 class="ombre-text">SynthTnT</h2>
                 </div>
             </div>
         </div>
@@ -145,35 +143,104 @@
     </div>
 
     <div id="scroll"></div>
-    <script type="text/javascript" src="/scripts/audio-manager.js"></script>
+    <script type="text/javascript" src="/resources/scripts/audio.js"></script>
     <script>
+        let maxCharCount = 150;
         var player = null;
-        var welcome = document.getElementById('welcome');
         var textarea = document.getElementById('textarea');
-        var charCount = document.getElementById('char-count');
-        var scrollToTop = document.getElementById('scroll');
-        var testerPrompt = document.getElementById('tester-prompt');
-        var testPromptShow = document.getElementById('hint-down');
-        var testPromptHide = document.getElementById('hint-up');
+
+        function updateCharacterCount() {
+            let charCount = document.getElementById('char-count');
+            charCount.textContent = textarea.value.length + '/' + maxCharCount + ' characters';
+
+            // Display the character limit as red if it exceeds the limit
+            if (textarea.value.length > maxCharCount) charCount.style.color = 'red';
+            else charCount.style.color = 'white';
+        }
+
+        function toggleTermsConditionsModal(state) {
+            document.getElementById('termsModal').style.display = state ? 'block' : 'none';
+        }
+
+        function getData() {
+            if (textarea.value == "") {
+                alert("Please enter text to synthesize.");
+                return;
+            }
+            if (textarea.value.length > maxCharCount) {
+                alert("Text is longer than the " + maxCharCount + " character limit.");
+                return;
+            }
+            
+            // Hide player if it is visible
+            if (player === null) player = document.querySelector(".player");
+            player.classList.remove("fade-in");
+            player.classList.add("fade-out");
+
+            // Send POST to SynthTnT
+            fetch('/synthesize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: textarea.value})
+            })
+            .then(async function(response) {
+                let status = response.status;
+                let result = await response.text();
+                console.log("Result: " + result);
+                if (status !== 200) {
+                    alert("An error occured. Please refresh the page and try again.");
+                    return;
+                }
+
+                // Show player if it was hidden
+                player.classList.remove("fade-out");
+                player.classList.add("fade-in");
+
+                // Change audio source
+                setTimeout(changeAudio(), 200);
+            });
+        }
+
+        // Set up the main functionality of the home page
+        document.addEventListener("DOMContentLoaded", async function() {
+            
+            // authorise with IBM Cloud and print voices to console
+            fetch('/authorise').catch(function(error) { console.log(error); });
+            player = document.getElementById("player");
+            
+            // Reset audio players and seekbars
+            toggleAudio();
+            updateSeekBar();
+
+            // Character count
+            updateCharacterCount();
+        });
+
+        // Scroll to top function
+        document.getElementById('scroll')
+            .addEventListener("click", function() { 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            });
+
+        // Add an input event listener to the textarea
+        textarea.addEventListener('input', function() { updateCharacterCount(); });
 
         // Get the terms modal and its contents
         var modal = document.getElementById('termsModal');
         var modalContent = modal.querySelector('.modal-content');
 
         // Add an event listener for when the modal is shown
-        modal.addEventListener('show', function() {
-            modalContent.scrollTop = 0;
-        });
+        modal.addEventListener('show', function() { modalContent.scrollTop = 0; });
 
-        // Add an input event listener to the textarea
-        textarea.addEventListener('input', function() {
-            updateCharacterCount();
-        });
 
-        // Scroll to top function
-        scrollToTop.addEventListener("click", function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        /* Beta Testing */
+        // =================
+
+        var testerPrompt = document.getElementById('tester-prompt');
+        var testPromptShow = document.getElementById('hint-down');
+        var testPromptHide = document.getElementById('hint-up');
 
         // If the test prompt hint button is clicked, show the tester prompt
         testPromptShow.addEventListener("click", function() {
@@ -203,77 +270,9 @@
             }, 600);
         });
 
-        document.addEventListener("DOMContentLoaded", async function() {
-            
-            // authorise with IBM Cloud and print voices to console
-            fetch('/authorise').catch(function(error) { console.log(error); });
-            player = document.getElementById("player");
-            
-            // Reset audio players and seekbars
-            toggleAudio('');
-            updateSeekBar('');
-
-            // Character count
-            updateCharacterCount();
-        });
-
-        document.getElementById('backToHome').addEventListener('click', function() {
-            toggleTermsConditionsModal(false);
-        });
-
-        function updateCharacterCount() {
-            charCount.textContent = textarea.value.length + '/50 characters';
-
-            // Display the character limit as red if it exceeds 50
-            if (textarea.value.length > 50) charCount.style.color = 'red';
-            else charCount.style.color = 'white';
-        }
-
-        function toggleTermsConditionsModal(state) {
-            document.getElementById('termsModal').style.display = state ? 'block' : 'none';
-        }
-
-        function getData() {
-            var textData = document.getElementById("textarea").value;
-            if (textData == "") {
-                alert("Please enter text to synthesize.");
-                return;
-            }
-            if (textData.length > 50) {
-                alert("Text is longer than the 50 character limit.");
-                return;
-            }
-            console.log("Text: " + textData);
-            
-            // Hide player if it is visible
-            if (player === null) player = document.getElementById("player");
-            player.classList.remove("fade-in");
-            player.classList.add("fade-out");
-
-            // Send POST to SynthTnT
-            fetch('/synthesize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({text: textData})
-            })
-            .then(async function(response) {
-                let result = await response.text();
-                console.log("Result: " + result);
-                if (result !== "Success") {
-                    alert("An error occured. Please refresh the page and try again.");
-                    return;
-                }
-
-                // Show player if it was hidden
-                player.classList.remove("fade-out");
-                player.classList.add("fade-in");
-
-                // Change audio source
-                setTimeout(changeAudio(), 200);
-            });
-        }
+        // Add an event listener for the back button in the T&C modal
+        document.getElementById('backToHome')
+            .addEventListener('click', function() { toggleTermsConditionsModal(false); });
     </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const CryptoJS = require('crypto-js');
+import { readFileSync } from 'fs';
+import { SHA256 } from 'crypto-js';
 
 var DTTECIPAHashMap = new Map();
 loadDTTECIPAHashMap();
@@ -7,7 +7,7 @@ loadDTTECIPAHashMap();
 //Function used to read the json data from data.json
 function readJsonFile(filePath) {
     try {
-        const jsonData = fs.readFileSync(filePath, 'utf-8');
+        const jsonData = readFileSync(filePath, 'utf-8');
 
         // Check if the JSON data is valid
         if (jsonData === '') {
@@ -38,7 +38,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
         parsedJSON.forEach(entry => {
         
             // Use the 'headword' attribute as the key 
-            let id = CryptoJS.SHA256(entry.headword.trim().toLowerCase()).toString();
+            let id = SHA256(entry.headword.trim().toLowerCase()).toString();
             
             // Extract the 'pronunciation' attribute
             let pronunciation = entry.pronunciation;
@@ -49,7 +49,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
 
                 // Also add the alternate spellings as separate entries
                 for (let i = 0; i < entry.alternate_spelling.length; i++) {
-                    id = CryptoJS.SHA256(entry.alternate_spelling[i].trim().toLowerCase()).toString();
+                    id = SHA256(entry.alternate_spelling[i].trim().toLowerCase()).toString();
                     DTTECIPAHashMap.set(id, pronunciation[0]);
                 }
             }
@@ -64,7 +64,7 @@ function loadDTTECIPAHashMap(dictPath = 'DTTEC_FULL.json') {
 
 // Function to lookup entries in the DTTEC HashMap
 function lookup(word) {
-    let hash = CryptoJS.SHA256(word).toString();
+    let hash = SHA256(word).toString();
     return DTTECIPAHashMap.get(hash) ? DTTECIPAHashMap.get(hash).toString() : undefined;
 }
 

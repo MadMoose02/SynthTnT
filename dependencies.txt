@@ -1,0 +1,6 @@
+dotenv
+multer
+stream
+express
+googleapis
+ibm-watson

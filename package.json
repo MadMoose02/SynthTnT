@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "node-gyp rebuild || echo 'No build step required'"
   },
   "author": "Keshan Moosai",
   "license": "ISC",

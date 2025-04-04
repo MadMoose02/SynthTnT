@@ -19,7 +19,12 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ff0000af;
+    font-weight: bold;
+    text-align: center;
 }
 
 
@@ -344,8 +349,6 @@ form {
 }
 
 
-/* Templated*/
-/* Player Section */
 .player {
     top: 5%;
     padding-bottom: 10px;
@@ -389,21 +392,42 @@ form {
     margin-top: 10px;
     display: flex;
     flex: 3;
-    justify-content: space-between; 
+    justify-content: center; 
     align-items: center;
 }
 
-img:hover,
+.play-btn:hover,
+.pause-btn:hover,
+.stop-btn:hover,
 .seekbar:hover {
     opacity: 0.7;
 }
 
-.play-btn img{
-    height: 15vh;
+.play-btn {
+    height: 12vh;
+    width: 12vh;
+    background-image: url("../images/play.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.pause-stop-btn img{
+.pause-btn {
     height: 5vh;
+    width: 5vh;
+    background-image: url("../images/pause.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.stop-btn {
+    height: 5vh;
+    width: 5vh;
+    background-image: url("../images/stop.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .seekbar{
@@ -438,15 +462,12 @@ img:hover,
 }
 
 
-/* Target Screens less than 800px wide */
 @media screen and (max-width: 800px) {
 
-    /* Body Adjustments */
     body {
       font-size: 12px; /* Adjust base font size for mobile */
     }
 
-    /* Text Input Section */
     #textarea {
       width: 80%; /* Increase text input width */
     }
@@ -456,12 +477,10 @@ img:hover,
         margin: 10px;
     }
   
-    /* Modals */
     .modal-content {
       width: 80%; /* Adjust modal width */
     }
   
-    /* Testing Page */
     #start-up {
       padding: 10px; /* Adjust padding for smaller screens */
     }
@@ -470,14 +489,12 @@ img:hover,
       font-size: 16px; /* Adjust instruction font size */
       width: auto;
     }
-  
-    /* Form Section */
+
     #questionnaire {
       font-size: 18px; /* Adjust questionnaire font size */
       margin-top: 10vh; /* Adjust margin for better placement */
     }
   
-    /* Player Section */
     .player {
       max-height: unset; /* Remove max-height for better layout */
       flex-direction: column;
@@ -498,11 +515,15 @@ img:hover,
       margin-right: 60px;
     }
   
-    .play-btn img {
+    .play-btn {
         height: 12vh;
     }
 
-    .pause-stop-btn img {
+    .pause-btn {
+        height: 6vh;
+    }
+
+    .stop-btn {
         height: 6vh;
     }
   
